@@ -219,7 +219,11 @@ const MapWithMemo = React.memo(({ centerPosition, trails, onMarkerClick, selecte
     >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        url={
+          document.documentElement.classList.contains('dark')
+            ? "https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png"
+            : "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        }
       />
       
       {trails.map(trail => (
@@ -320,14 +324,14 @@ const Maps = () => {
     setShowSidebar(true);
   }, []);
   
-  return (
-    <div className="flex flex-col md:flex-row h-screen p-3 md:p-4 gap-3 md:gap-4 bg-slate-900 text-white overflow-x-hidden">
+    return (
+    <div className="flex flex-col md:flex-row h-screen p-3 md:p-4 gap-3 md:gap-4 bg-slate-100 dark:bg-slate-900 text-slate-900 dark:text-white overflow-x-hidden">
       {/* 左側 */}
       <div className="md:w-2/3 lg:w-3/4 flex flex-col gap-3 md:gap-4">
         {/* 搜尋和過濾區 */}
-        <div className="bg-slate-800 p-3 md:p-4 rounded-xl shadow-lg flex flex-col sm:flex-row gap-3">
+        <div className="bg-white dark:bg-slate-800 p-3 md:p-4 rounded-xl shadow-lg flex flex-col sm:flex-row gap-3">
           <Input
-            className="bg-slate-700 border-slate-600 flex-grow"
+            className="bg-slate-50 dark:bg-slate-700 border-slate-200 dark:border-slate-600 flex-grow"
             placeholder="搜尋步道名稱..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
@@ -402,7 +406,7 @@ const Maps = () => {
       <div className="md:w-1/3 lg:w-1/4 mt-4 md:mt-0 flex flex-col gap-4">
         <div className="sticky top-4 space-y-4">
           {/* 步道卡片列表 */}
-          <div className="bg-slate-800 p-4 rounded-xl shadow-lg overflow-hidden">
+          <div className="bg-white dark:bg-slate-800 p-4 rounded-xl shadow-lg overflow-hidden">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-xl font-bold">步道列表</h2>
               <Badge variant="outline">{filteredAndSortedTrails.length} 條</Badge>
@@ -434,7 +438,7 @@ const Maps = () => {
           </div>
           
           {/* 特色步道區 (僅在 md 以上尺寸顯示) */}
-          <div className="hidden md:block bg-slate-800 p-4 rounded-xl shadow-lg">
+          <div className="hidden md:block bg-white dark:bg-slate-800 p-4 rounded-xl shadow-lg">
             <h2 className="text-xl font-bold mb-4">特色步道</h2>
             
             <Separator className="my-2 bg-slate-700" />
@@ -464,7 +468,7 @@ const Maps = () => {
       <AnimatePresence>
         {showSidebar && selectedTrail && (
           <motion.div
-            className="fixed top-0 right-0 w-full sm:w-96 h-full bg-slate-800 shadow-lg z-50 overflow-y-auto custom-scrollbar"
+            className="fixed top-0 right-0 w-full sm:w-96 h-full bg-white dark:bg-slate-800 shadow-lg z-50 overflow-y-auto custom-scrollbar"
             initial={{ x: '100%', opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             exit={{ x: '100%', opacity: 0 }}
@@ -523,7 +527,7 @@ const Maps = () => {
               
               {/* 步道資訊表格 */}
               <div className="space-y-4 mb-6">
-                <div className="bg-slate-700/50 p-3 rounded-lg">
+                <div className="bg-slate-100 dark:bg-slate-700/50 p-3 rounded-lg">
                   <h3 className="font-semibold mb-2">地形特徵</h3>
                   <div className="flex flex-wrap gap-1">
                     {selectedTrail.terrain.map(item => (
@@ -532,7 +536,7 @@ const Maps = () => {
                   </div>
                 </div>
                 
-                <div className="bg-slate-700/50 p-3 rounded-lg">
+                <div className="bg-slate-100 dark:bg-slate-700/50 p-3 rounded-lg">
                   <h3 className="font-semibold mb-2">最佳季節</h3>
                   <div className="flex flex-wrap gap-1">
                     {selectedTrail.seasons.map(season => (
@@ -541,7 +545,7 @@ const Maps = () => {
                   </div>
                 </div>
                 
-                <div className="bg-slate-700/50 p-3 rounded-lg">
+                <div className="bg-slate-100 dark:bg-slate-700/50 p-3 rounded-lg">
                   <h3 className="font-semibold mb-2">步道特色</h3>
                   <div className="flex flex-wrap gap-1">
                     {selectedTrail.features.map(feature => (
@@ -550,7 +554,7 @@ const Maps = () => {
                   </div>
                 </div>
                 
-                <div className="bg-slate-700/50 p-3 rounded-lg">
+                <div className="bg-slate-100 dark:bg-slate-700/50 p-3 rounded-lg">
                   <h3 className="font-semibold mb-2">安全提醒</h3>
                   <div className="flex flex-wrap gap-1 mb-2">
                     {selectedTrail.hazards.map(hazard => (
@@ -560,7 +564,7 @@ const Maps = () => {
                   <p className="text-sm text-slate-300">{selectedTrail.tips}</p>
                 </div>
                 
-                <div className="bg-slate-700/50 p-3 rounded-lg">
+                <div className="bg-slate-100 dark:bg-slate-700/50 p-3 rounded-lg">
                   <h3 className="font-semibold mb-2">附近步道</h3>
                   <div className="flex flex-wrap gap-1">
                     {selectedTrail.nearbyTrails.map(trail => (
