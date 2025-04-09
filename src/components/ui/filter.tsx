@@ -7,7 +7,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Badge } from "@/components/ui/badge";
 import { ChevronDown, ChevronUp, X } from "lucide-react";
 
-
 // 定義步道類型
 export interface Trail {
     id: number;
@@ -32,10 +31,11 @@ export interface Trail {
 interface TrailFilterProps {
     trails: Trail[];
     setFilteredTrails: React.Dispatch<React.SetStateAction<Trail[]>>;
+    onFiltersChange: (filters: FilterState) => void;
 }
 
 // 定義篩選條件類型
-interface FilterState {
+export interface FilterState {
     difficulty: string[];
     region: string[];
     distance: number[];
@@ -46,9 +46,7 @@ interface FilterState {
     tags: string[];
 }
 
-
-
-const TrailFilter: React.FC<TrailFilterProps> = ({ trails, setFilteredTrails }) => {
+const TrailFilter: React.FC<TrailFilterProps> = ({ trails, onFiltersChange }) => {
     // 篩選狀態
     const [filters, setFilters] = useState<FilterState>({
         difficulty: [],
@@ -63,6 +61,7 @@ const TrailFilter: React.FC<TrailFilterProps> = ({ trails, setFilteredTrails }) 
 
     // 展開狀態
     const [advancedOpen, setAdvancedOpen] = useState<boolean>(false);
+
     // 使用 useMemo 記憶化所有選項
     const allOptions = useMemo(() => ({
         regions: Array.from(new Set(trails.map(t => t.region))),
@@ -71,58 +70,8 @@ const TrailFilter: React.FC<TrailFilterProps> = ({ trails, setFilteredTrails }) 
         features: Array.from(new Set(trails.flatMap(t => t.features)))
     }), [trails]);
 
-
-    // 應用篩選邏輯
-    const applyFilters = () => {
-        const filtered = trails.filter(trail => {
-            // 難度篩選
-            if (filters.difficulty.length > 0 && !filters.difficulty.includes(trail.difficulty)) {
-                return false;
-            }
-
-            // 地區篩選
-            if (filters.region.length > 0 && !filters.region.includes(trail.region)) {
-                return false;
-            }
-
-            // 距離篩選
-            if (trail.length < filters.distance[0] || trail.length > filters.distance[1]) {
-                return false;
-            }
-
-            // 季節篩選
-            if (filters.seasons.length > 0 && !filters.seasons.some(season => trail.seasons.includes(season))) {
-                return false;
-            }
-
-            // 評分篩選
-            if (trail.rating < filters.rating) {
-                return false;
-            }
-
-            // 地形篩選
-            if (filters.terrain.length > 0 && !filters.terrain.some(t => trail.terrain.includes(t))) {
-                return false;
-            }
-
-            // 特色篩選
-            if (filters.features.length > 0 && !filters.features.some(f => trail.features.includes(f))) {
-                return false;
-            }
-
-            // 標籤篩選
-            if (filters.tags.length > 0 && !filters.tags.some(tag => trail.tags.includes(tag))) {
-                return false;
-            }
-
-            return true;
-        });
-
-        setFilteredTrails(filtered);
-    };
-
-    // 處理篩選變更
-    const handleFilterChange = (category: keyof FilterState, value: string | number | number[]) => {
+    // 處理篩選變更 - 使用 useCallback 避免重複創建函數
+    const handleFilterChange = useCallback((category: keyof FilterState, value: string | number | number[]) => {
         setFilters(prev => {
             const newFilters = { ...prev };
 
@@ -143,10 +92,10 @@ const TrailFilter: React.FC<TrailFilterProps> = ({ trails, setFilteredTrails }) 
 
             return newFilters;
         });
-    };
+    }, []);
 
     // 清除所有篩選
-    const clearAllFilters = () => {
+    const clearAllFilters = useCallback(() => {
         setFilters({
             difficulty: [],
             region: [],
@@ -157,21 +106,21 @@ const TrailFilter: React.FC<TrailFilterProps> = ({ trails, setFilteredTrails }) 
             rating: 0,
             tags: []
         });
-    };
+    }, []);
 
-    // 篩選器變化時應用篩選
+    // 篩選器變化時調用父組件的過濾函數，使用防抖減少調用頻率
     useEffect(() => {
-        applyFilters();
-    }, [filters]);
+        const handler = setTimeout(() => {
+            onFiltersChange(filters);
+        }, 300); // 300ms防抖
 
-    // 獲取所有可能的選項
-    const allRegions = Array.from(new Set(trails.map(t => t.region)));
-    const allTags = Array.from(new Set(trails.flatMap(t => t.tags)));
-    const allTerrains = Array.from(new Set(trails.flatMap(t => t.terrain)));
-    const allFeatures = Array.from(new Set(trails.flatMap(t => t.features)));
+        return () => clearTimeout(handler);
+    }, [filters, onFiltersChange]);
+
     //進階篩選隱藏顯示
     const [showAllTerrains, setShowAllTerrains] = useState<boolean>(false);
     const [showAllFeatures, setShowAllFeatures] = useState<boolean>(false);
+
     return (
         <div className="bg-white dark:bg-slate-800 p-4 rounded-lg mb-6 shadow-lg">
             {/* 主要篩選選項 */}
@@ -241,7 +190,7 @@ const TrailFilter: React.FC<TrailFilterProps> = ({ trails, setFilteredTrails }) 
                             <SelectValue placeholder="選擇地區" />
                         </SelectTrigger>
                         <SelectContent>
-                            {allRegions.map(region => (
+                            {allOptions.regions.map(region => (
                                 <SelectItem key={region} value={region}>{region}</SelectItem>
                             ))}
                         </SelectContent>
@@ -291,7 +240,7 @@ const TrailFilter: React.FC<TrailFilterProps> = ({ trails, setFilteredTrails }) 
                             <div>
                                 <p className="text-sm text-gray-600 dark:text-slate-300 mb-2">地形類型</p>
                                 <div className="flex flex-wrap gap-2">
-                                    {allTerrains.slice(0, showAllTerrains ? allTerrains.length : 14).map(terrain => (
+                                    {allOptions.terrains.slice(0, showAllTerrains ? allOptions.terrains.length : 14).map(terrain => (
                                         <Badge
                                             key={terrain}
                                             variant={filters.terrain.includes(terrain) ? "default" : "outline"}
@@ -301,7 +250,7 @@ const TrailFilter: React.FC<TrailFilterProps> = ({ trails, setFilteredTrails }) 
                                             {terrain}
                                         </Badge>
                                     ))}
-                                    {allTerrains.length > 5 && (
+                                    {allOptions.terrains.length > 5 && (
                                         <Button
                                             variant="ghost"
                                             size="sm"
@@ -316,7 +265,7 @@ const TrailFilter: React.FC<TrailFilterProps> = ({ trails, setFilteredTrails }) 
                                             ) : (
                                                 <>
                                                     <ChevronDown size={14} />
-                                                    更多 ({allTerrains.length - 10})
+                                                    更多 ({allOptions.terrains.length - 10})
                                                 </>
                                             )}
                                         </Button>
@@ -326,9 +275,9 @@ const TrailFilter: React.FC<TrailFilterProps> = ({ trails, setFilteredTrails }) 
 
                             {/* 特色篩選 */}
                             <div>
-                            <p className="text-sm text-gray-600 dark:text-slate-300 mb-2">特色景點</p>
+                                <p className="text-sm text-gray-600 dark:text-slate-300 mb-2">特色景點</p>
                                 <div className="flex flex-wrap gap-2">
-                                    {allFeatures.slice(0, showAllFeatures ? allFeatures.length : 11).map(feature => (
+                                    {allOptions.features.slice(0, showAllFeatures ? allOptions.features.length : 11).map(feature => (
                                         <Badge
                                             key={feature}
                                             variant={filters.features.includes(feature) ? "default" : "outline"}
@@ -338,7 +287,7 @@ const TrailFilter: React.FC<TrailFilterProps> = ({ trails, setFilteredTrails }) 
                                             {feature}
                                         </Badge>
                                     ))}
-                                    {allFeatures.length > 5 && (
+                                    {allOptions.features.length > 5 && (
                                         <Button
                                             variant="ghost"
                                             size="sm"
@@ -353,7 +302,7 @@ const TrailFilter: React.FC<TrailFilterProps> = ({ trails, setFilteredTrails }) 
                                             ) : (
                                                 <>
                                                     <ChevronDown size={14} />
-                                                    更多 ({allFeatures.length - 10})
+                                                    更多 ({allOptions.features.length - 10})
                                                 </>
                                             )}
                                         </Button>
@@ -363,9 +312,9 @@ const TrailFilter: React.FC<TrailFilterProps> = ({ trails, setFilteredTrails }) 
 
                             {/* 標籤篩選 */}
                             <div className="md:col-span-3">
-                            <p className="text-sm text-gray-600 dark:text-slate-300 mb-2">熱門標籤</p>
+                                <p className="text-sm text-gray-600 dark:text-slate-300 mb-2">熱門標籤</p>
                                 <div className="flex flex-wrap gap-2">
-                                    {allTags.map(tag => (
+                                    {allOptions.tags.map(tag => (
                                         <Badge
                                             key={tag}
                                             variant={filters.tags.includes(tag) ? "default" : "outline"}
