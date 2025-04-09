@@ -42,7 +42,15 @@ const Header = () => {
                     <Button variant="ghost" className="relative text-lg font-medium hover:text-primary transition-all duration-200 group w-full md:w-auto">
                         <li className="list-none">
                             <Link to="/exploretrail" className="relative inline-block">
-                                探索
+                                探索簡介
+                                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-200 group-hover:w-full"></span>
+                            </Link>
+                        </li>
+                    </Button>
+                    <Button variant="ghost" className="relative text-lg font-medium hover:text-primary transition-all duration-200 group w-full md:w-auto">
+                        <li className="list-none">
+                            <Link to="/maps" className="relative inline-block">
+                                地圖導覽
                                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-200 group-hover:w-full"></span>
                             </Link>
                         </li>
@@ -50,7 +58,7 @@ const Header = () => {
                     <Button variant="ghost" className="relative text-lg font-medium hover:text-primary transition-all duration-200 group w-full md:w-auto">
                         <li className="list-none">
                             <Link to="/about" className="relative inline-block">
-                                商城
+                                關於我們
                                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-200 group-hover:w-full"></span>
                             </Link>
                         </li>

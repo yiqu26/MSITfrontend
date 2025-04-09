@@ -13,7 +13,7 @@ const VideoBanner = () => {
     useEffect(() => {
         const interval = setInterval(() => {
             setCurrentIndex(prevIndex => (prevIndex + 1) % videoSources.length);
-        }, 15000); // 每 5 秒切換一次影片
+        }, 7000); // 每 5 秒切換一次影片
 
         return () => clearInterval(interval); // 清除 interval 當組件卸載時
     }, []);

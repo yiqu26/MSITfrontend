@@ -10,6 +10,7 @@ import Signup from '../src/pages/signup';
 import ForgetPassword from '../src/pages/forgetpassword';
 import Playground from '../src/pages/playground';
 import TraiPage from '../src/pages/exploretrail';
+import Maps from '../src/pages/maps';
 
 const App = () => {
  
@@ -29,6 +30,7 @@ const App = () => {
             <Route path="/signup" element={<Signup />} />
             <Route path="/forgetpassword" element={<ForgetPassword />} />
             <Route path="/exploretrail" element={<TraiPage />} />
+            <Route path="/maps" element={<Maps />} />
           </Routes>
           <ThemeToggle />
         </div>

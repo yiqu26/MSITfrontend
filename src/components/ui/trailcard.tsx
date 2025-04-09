@@ -98,7 +98,7 @@ const TrailCarousel = () => {
     return (
         <div className="px-4 py-6 max-w-7xl mx-auto">
             <h2 className="text-3xl font-bold mb-6 text-gray-800 dark:text-white">
-                Local favorites near <span className="text-primary dark:text-primary/80 font-bold">Taichung</span>
+                Local favorites near <span className="text-primary dark:text-emerald-400 font-bold">Taichung</span>
             </h2>
             <Swiper
                 modules={[Navigation]}
