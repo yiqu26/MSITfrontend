@@ -1,11 +1,12 @@
 // TrailFilter.tsx
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion';
 import { Slider } from "@/components/ui/slider";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { ChevronDown, ChevronUp, X } from "lucide-react";
+
 
 // 定義步道類型
 export interface Trail {
@@ -45,12 +46,14 @@ interface FilterState {
     tags: string[];
 }
 
+
+
 const TrailFilter: React.FC<TrailFilterProps> = ({ trails, setFilteredTrails }) => {
     // 篩選狀態
     const [filters, setFilters] = useState<FilterState>({
         difficulty: [],
         region: [],
-        distance: [0, 20],
+        distance: [0, 25],
         seasons: [],
         terrain: [],
         features: [],
@@ -60,6 +63,14 @@ const TrailFilter: React.FC<TrailFilterProps> = ({ trails, setFilteredTrails }) 
 
     // 展開狀態
     const [advancedOpen, setAdvancedOpen] = useState<boolean>(false);
+    // 使用 useMemo 記憶化所有選項
+    const allOptions = useMemo(() => ({
+        regions: Array.from(new Set(trails.map(t => t.region))),
+        tags: Array.from(new Set(trails.flatMap(t => t.tags))),
+        terrains: Array.from(new Set(trails.flatMap(t => t.terrain))),
+        features: Array.from(new Set(trails.flatMap(t => t.features)))
+    }), [trails]);
+
 
     // 應用篩選邏輯
     const applyFilters = () => {
@@ -139,7 +150,7 @@ const TrailFilter: React.FC<TrailFilterProps> = ({ trails, setFilteredTrails }) 
         setFilters({
             difficulty: [],
             region: [],
-            distance: [0, 20],
+            distance: [0, 25],
             seasons: [],
             terrain: [],
             features: [],
@@ -158,24 +169,26 @@ const TrailFilter: React.FC<TrailFilterProps> = ({ trails, setFilteredTrails }) 
     const allTags = Array.from(new Set(trails.flatMap(t => t.tags)));
     const allTerrains = Array.from(new Set(trails.flatMap(t => t.terrain)));
     const allFeatures = Array.from(new Set(trails.flatMap(t => t.features)));
-
+    //進階篩選隱藏顯示
+    const [showAllTerrains, setShowAllTerrains] = useState<boolean>(false);
+    const [showAllFeatures, setShowAllFeatures] = useState<boolean>(false);
     return (
-        <div className="bg-slate-800 p-4 rounded-lg mb-6 shadow-lg">
+        <div className="bg-white dark:bg-slate-800 p-4 rounded-lg mb-6 shadow-lg">
             {/* 主要篩選選項 */}
             <div className="flex flex-wrap gap-4 mb-4">
                 {/* 難度篩選 */}
                 <div>
-                    <p className="text-sm text-slate-300 mb-2">難度</p>
+                    <p className="text-sm text-gray-600 dark:text-slate-300 mb-2">難度</p>
                     <div className="flex gap-2">
                         {['簡單', '中等', '困難'].map(diff => (
                             <Badge
                                 key={diff}
                                 variant={filters.difficulty.includes(diff) ? "default" : "outline"}
                                 className={`cursor-pointer ${filters.difficulty.includes(diff) ?
-                                        (diff === '困難' ? 'bg-red-500 hover:bg-red-600' :
-                                            diff === '中等' ? 'bg-amber-500 hover:bg-amber-600' :
-                                                'bg-green-500 hover:bg-green-600')
-                                        : ''
+                                    (diff === '困難' ? 'bg-red-500 hover:bg-red-600' :
+                                        diff === '中等' ? 'bg-amber-500 hover:bg-amber-600' :
+                                            'bg-green-500 hover:bg-green-600')
+                                    : ''
                                     }`}
                                 onClick={() => handleFilterChange('difficulty', diff)}
                             >
@@ -187,7 +200,9 @@ const TrailFilter: React.FC<TrailFilterProps> = ({ trails, setFilteredTrails }) 
 
                 {/* 距離篩選 */}
                 <div className="min-w-[200px]">
-                    <p className="text-sm text-slate-300 mb-2">距離: {filters.distance[0]}-{filters.distance[1]}km</p>
+                    <p className="text-sm text-gray-600 dark:text-slate-300 mb-2">
+                        距離: {filters.distance[0]}-{filters.distance[1]}km
+                    </p>
                     <Slider
                         defaultValue={[0, 20]}
                         max={20}
@@ -200,7 +215,7 @@ const TrailFilter: React.FC<TrailFilterProps> = ({ trails, setFilteredTrails }) 
 
                 {/* 評分篩選 */}
                 <div>
-                    <p className="text-sm text-slate-300 mb-2">最低評分</p>
+                    <p className="text-sm text-gray-600 dark:text-slate-300 mb-2">最低評分</p>
                     <Select
                         value={filters.rating.toString()}
                         onValueChange={(val) => handleFilterChange('rating', Number(val))}
@@ -220,7 +235,7 @@ const TrailFilter: React.FC<TrailFilterProps> = ({ trails, setFilteredTrails }) 
 
                 {/* 地區篩選 */}
                 <div>
-                    <p className="text-sm text-slate-300 mb-2">地區</p>
+                    <p className="text-sm text-gray-600 dark:text-slate-300 mb-2">地區</p>
                     <Select onValueChange={(val) => handleFilterChange('region', val)}>
                         <SelectTrigger className="w-[120px]">
                             <SelectValue placeholder="選擇地區" />
@@ -238,7 +253,7 @@ const TrailFilter: React.FC<TrailFilterProps> = ({ trails, setFilteredTrails }) 
             <Button
                 variant="ghost"
                 onClick={() => setAdvancedOpen(!advancedOpen)}
-                className="flex items-center gap-1 mb-2 text-slate-300 hover:text-white"
+                className="flex items-center gap-1 mb-2 text-gray-600 hover:text-gray-900 dark:text-slate-300 dark:hover:text-white"
             >
                 進階篩選
                 {advancedOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
@@ -254,10 +269,10 @@ const TrailFilter: React.FC<TrailFilterProps> = ({ trails, setFilteredTrails }) 
                         transition={{ duration: 0.3 }}
                         className="overflow-hidden"
                     >
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2 border-t border-slate-700">
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2 border-t border-gray-200 dark:border-slate-700">
                             {/* 季節篩選 */}
                             <div>
-                                <p className="text-sm text-slate-300 mb-2">適合季節</p>
+                                <p className="text-sm text-gray-600 dark:text-slate-300 mb-2">適合季節</p>
                                 <div className="flex flex-wrap gap-2">
                                     {['春', '夏', '秋', '冬'].map(season => (
                                         <Badge
@@ -274,41 +289,81 @@ const TrailFilter: React.FC<TrailFilterProps> = ({ trails, setFilteredTrails }) 
 
                             {/* 地形篩選 */}
                             <div>
-                                <p className="text-sm text-slate-300 mb-2">地形類型</p>
+                                <p className="text-sm text-gray-600 dark:text-slate-300 mb-2">地形類型</p>
                                 <div className="flex flex-wrap gap-2">
-                                    {allTerrains.map(terrain => (
+                                    {allTerrains.slice(0, showAllTerrains ? allTerrains.length : 14).map(terrain => (
                                         <Badge
                                             key={terrain}
                                             variant={filters.terrain.includes(terrain) ? "default" : "outline"}
-                                            className="cursor-pointer"
+                                            className="cursor-pointer text-xs h-6 px-2 bg-opacity-90 hover:bg-opacity-100"
                                             onClick={() => handleFilterChange('terrain', terrain)}
                                         >
                                             {terrain}
                                         </Badge>
                                     ))}
+                                    {allTerrains.length > 5 && (
+                                        <Button
+                                            variant="ghost"
+                                            size="sm"
+                                            onClick={() => setShowAllTerrains(!showAllTerrains)}
+                                            className="text-xs text-gray-500 hover:text-gray-700 dark:text-slate-400 dark:hover:text-white h-6 px-2 flex items-center gap-1"
+                                        >
+                                            {showAllTerrains ? (
+                                                <>
+                                                    <ChevronUp size={14} />
+                                                    收合
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <ChevronDown size={14} />
+                                                    更多 ({allTerrains.length - 10})
+                                                </>
+                                            )}
+                                        </Button>
+                                    )}
                                 </div>
                             </div>
 
                             {/* 特色篩選 */}
                             <div>
-                                <p className="text-sm text-slate-300 mb-2">特色景點</p>
+                            <p className="text-sm text-gray-600 dark:text-slate-300 mb-2">特色景點</p>
                                 <div className="flex flex-wrap gap-2">
-                                    {allFeatures.map(feature => (
+                                    {allFeatures.slice(0, showAllFeatures ? allFeatures.length : 11).map(feature => (
                                         <Badge
                                             key={feature}
                                             variant={filters.features.includes(feature) ? "default" : "outline"}
-                                            className="cursor-pointer"
+                                            className="cursor-pointer text-xs h-6 px-2"
                                             onClick={() => handleFilterChange('features', feature)}
                                         >
                                             {feature}
                                         </Badge>
                                     ))}
+                                    {allFeatures.length > 5 && (
+                                        <Button
+                                            variant="ghost"
+                                            size="sm"
+                                            onClick={() => setShowAllFeatures(!showAllFeatures)}
+                                            className="text-xs text-slate-400 hover:text-white h-6 px-2 flex items-center gap-1"
+                                        >
+                                            {showAllFeatures ? (
+                                                <>
+                                                    <ChevronUp size={14} />
+                                                    收合
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <ChevronDown size={14} />
+                                                    更多 ({allFeatures.length - 10})
+                                                </>
+                                            )}
+                                        </Button>
+                                    )}
                                 </div>
                             </div>
 
                             {/* 標籤篩選 */}
                             <div className="md:col-span-3">
-                                <p className="text-sm text-slate-300 mb-2">熱門標籤</p>
+                            <p className="text-sm text-gray-600 dark:text-slate-300 mb-2">熱門標籤</p>
                                 <div className="flex flex-wrap gap-2">
                                     {allTags.map(tag => (
                                         <Badge
@@ -350,7 +405,7 @@ const TrailFilter: React.FC<TrailFilterProps> = ({ trails, setFilteredTrails }) 
                         variant="ghost"
                         size="sm"
                         onClick={clearAllFilters}
-                        className="text-xs text-slate-300 hover:text-white"
+                        className="text-xs text-gray-600 dark:text-slate-300 hover:text-gray-800 dark:hover:text-white h-6 px-2 flex items-center gap-1"
                     >
                         清除所有篩選
                     </Button>

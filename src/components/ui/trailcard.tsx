@@ -86,6 +86,7 @@ const getDifficultyColor = (difficulty: string) => {
 const TrailCarousel = () => {
     const [favorites, setFavorites] = useState<number[]>([]);
 
+    // 切換收藏顯示
     const toggleFavorite = (index: number) => {
         setFavorites(prev => 
             prev.includes(index) 
