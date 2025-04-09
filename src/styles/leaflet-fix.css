@@ -1,0 +1,77 @@
+/* Leaflet 圖標修復 */
+.leaflet-default-icon-path {
+  background-image: url(https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png);
+}
+
+.leaflet-control-zoom a {
+  color: #000 !important;
+}
+
+/* 自定義步道標記點樣式 */
+.custom-div-icon {
+  background: transparent;
+  border: none;
+}
+
+.custom-div-icon .困難 {
+  background-color: #ef4444;
+}
+
+.custom-div-icon .中等 {
+  background-color: #f59e0b;
+}
+
+.custom-div-icon .簡單 {
+  background-color: #22c55e;
+}
+
+/* 地圖容器樣式 */
+.leaflet-container {
+  height: 100%;
+  width: 100%;
+  border-radius: 0.75rem;
+  z-index: 0;
+  /* 性能優化: 開啟硬件加速 */
+  transform: translateZ(0);
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+/* 卡片性能優化 */
+.trail-card {
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* 暗黑模式樣式 */
+.dark .leaflet-container {
+  background-color: #1e293b;
+}
+
+.dark .leaflet-control {
+  background-color: #334155;
+  color: white;
+  border-color: #475569;
+}
+
+.dark .leaflet-control a {
+  background-color: #334155;
+  color: white !important;
+}
+
+.dark .leaflet-control-attribution {
+  background-color: rgba(30, 41, 59, 0.8);
+  color: #94a3b8;
+}
+
+.dark .leaflet-control-attribution a {
+  color: #94a3b8 !important;
+}
+
+/* 響應式調整 */
+@media (max-width: 768px) {
+  .leaflet-container {
+    height: 50vh;
+  }
+} 

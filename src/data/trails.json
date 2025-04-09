@@ -8,14 +8,36 @@
     "description": "台灣最高峰，景色壯麗，適合有經驗的登山者。",
     "image": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgx2uMG6VS-OfzREuyXmMhh-a4epXkxxz8BQrjuRreauZXCCAZFVE4fqKAj7XZYDmTK0tvftvow9wsLMXiXZX3Bkk92tJdmFjGitKfimpNXY662GOynolMGg_FRCwCPQvGY90DwRWX1inhtBMglcS-BeJ6A85t2lh9K4Dx0VP_xg8svxoCjLPtE7v14/s8256/%E7%8E%89%E5%B1%B1-9234.jpg",
     "rating": 5,
-    "seasons": ["春", "夏", "秋"],
-    "terrain": ["高山", "森林"],
-    "features": ["壯麗景色", "挑戰性"],
-    "hazards": ["高海拔", "天氣多變"],
+    "seasons": [
+      "春",
+      "夏",
+      "秋"
+    ],
+    "terrain": [
+      "高山",
+      "森林"
+    ],
+    "features": [
+      "壯麗景色",
+      "挑戰性"
+    ],
+    "hazards": [
+      "高海拔",
+      "天氣多變"
+    ],
     "tips": "建議攜帶足夠飲水與保暖衣物。",
-    "nearbyTrails": ["八通關古道", "合歡山主峰步道"],
+    "nearbyTrails": [
+      "八通關古道",
+      "合歡山主峰步道"
+    ],
     "lastUpdated": "2025-03-22",
-    "tags": ["高山", "挑戰性", "壯麗景色"]
+    "tags": [
+      "高山",
+      "挑戰性",
+      "壯麗景色"
+    ],
+    "latitude": 23.4707,
+    "longitude": 120.9563
   },
   {
     "id": 2,
@@ -26,14 +48,35 @@
     "description": "親民登山步道，可眺望台北101及市景。",
     "image": "https://images.alltrails.com/eyJidWNrZXQiOiJhc3NldHMuYWxsdHJhaWxzLmNvbSIsImtleSI6InVwbG9hZHMvcGhvdG8vaW1hZ2UvODQ5MjA1NjMvZjE1MjQ4MDc0MGNiZmFkMzc2M2FhMWIxMDRiOGUwNDcuanBnIiwiZWRpdHMiOnsidG9Gb3JtYXQiOiJ3ZWJwIiwicmVzaXplIjp7IndpZHRoIjoyMDQ4LCJoZWlnaHQiOjIwNDgsImZpdCI6Imluc2lkZSJ9LCJyb3RhdGUiOm51bGwsImpwZWciOnsidHJlbGxpc1F1YW50aXNhdGlvbiI6dHJ1ZSwib3ZlcnNob290RGVyaW5naW5nIjp0cnVlLCJvcHRpbWlzZVNjYW5zIjp0cnVlLCJxdWFudGlzYXRpb25UYWJsZSI6M319fQ==",
     "rating": 4.5,
-    "seasons": ["春", "秋", "冬"],
-    "terrain": ["丘陵", "森林"],
-    "features": ["夜景", "城市景觀"],
-    "hazards": ["石階滑倒"],
+    "seasons": [
+      "春",
+      "秋",
+      "冬"
+    ],
+    "terrain": [
+      "丘陵",
+      "森林"
+    ],
+    "features": [
+      "夜景",
+      "城市景觀"
+    ],
+    "hazards": [
+      "石階滑倒"
+    ],
     "tips": "黃昏或夜晚造訪可欣賞絕美夜景。",
-    "nearbyTrails": ["虎山步道", "四獸山步道"],
+    "nearbyTrails": [
+      "虎山步道",
+      "四獸山步道"
+    ],
     "lastUpdated": "2025-03-23",
-    "tags": ["夜景", "親民", "城市景觀"]
+    "tags": [
+      "夜景",
+      "親民",
+      "城市景觀"
+    ],
+    "latitude": 25.0238,
+    "longitude": 121.5708
   },
   {
     "id": 3,
@@ -44,14 +87,36 @@
     "description": "穿越神木群與鐵道，四季皆有不同美景。",
     "image": "https://images.alltrails.com/eyJidWNrZXQiOiJhc3NldHMuYWxsdHJhaWxzLmNvbSIsImtleSI6InVwbG9hZHMvcGhvdG8vaW1hZ2UvMTg5NzY3NDYvZDc4MGUwNTBiNzQ4MzgzY2I3YmQ2NTUwMTkwZjM1MTguanBnIiwiZWRpdHMiOnsidG9Gb3JtYXQiOiJ3ZWJwIiwicmVzaXplIjp7IndpZHRoIjoyMDQ4LCJoZWlnaHQiOjIwNDgsImZpdCI6Imluc2lkZSJ9LCJyb3RhdGUiOm51bGwsImpwZWciOnsidHJlbGxpc1F1YW50aXNhdGlvbiI6dHJ1ZSwib3ZlcnNob290RGVyaW5naW5nIjp0cnVlLCJvcHRpbWlzZVNjYW5zIjp0cnVlLCJxdWFudGlzYXRpb25UYWJsZSI6M319fQ==",
     "rating": 4.7,
-    "seasons": ["春", "夏", "秋", "冬"],
-    "terrain": ["森林"],
-    "features": ["神木", "櫻花", "鐵道"],
-    "hazards": ["濕滑路面"],
+    "seasons": [
+      "春",
+      "夏",
+      "秋",
+      "冬"
+    ],
+    "terrain": [
+      "森林"
+    ],
+    "features": [
+      "神木",
+      "櫻花",
+      "鐵道"
+    ],
+    "hazards": [
+      "濕滑路面"
+    ],
     "tips": "春天賞櫻，秋冬氣溫偏低請注意保暖。",
-    "nearbyTrails": ["姊妹潭步道", "祝山觀日步道"],
+    "nearbyTrails": [
+      "姊妹潭步道",
+      "祝山觀日步道"
+    ],
     "lastUpdated": "2025-03-24",
-    "tags": ["神木", "鐵道", "四季皆宜"]
+    "tags": [
+      "神木",
+      "鐵道",
+      "四季皆宜"
+    ],
+    "latitude": 23.5125,
+    "longitude": 120.8010
   },
   {
     "id": 4,
@@ -62,14 +127,34 @@
     "description": "峽谷間穿行的自然步道，水聲潺潺，風景優美。",
     "image": "https://lh3.googleusercontent.com/gps-cs-s/AB5caB-jlAJa7czcb2xUI9_E-YfuQrSJFXj0qwWY-Hvj895pzK4bs2M6XUEcMRtPcxq9Y2DVNa-qVjaNN92_mxACzv6LKxaQFXCSgh7ueOv_YyeL2LMjSZPQjn0_qZYwllCYgtHiI8bfEw=s1360-w1360-h1020",
     "rating": 4.8,
-    "seasons": ["春", "秋"],
-    "terrain": ["峽谷", "溪流"],
-    "features": ["峽谷景觀", "清澈溪流"],
-    "hazards": ["落石"],
+    "seasons": [
+      "春",
+      "秋"
+    ],
+    "terrain": [
+      "峽谷",
+      "溪流"
+    ],
+    "features": [
+      "峽谷景觀",
+      "清澈溪流"
+    ],
+    "hazards": [
+      "落石"
+    ],
     "tips": "請勿靠近溪邊戲水，注意落石告示。",
-    "nearbyTrails": ["白楊步道", "錐麓古道"],
+    "nearbyTrails": [
+      "白楊步道",
+      "錐麓古道"
+    ],
     "lastUpdated": "2025-03-25",
-    "tags": ["峽谷", "水景", "天然"]
+    "tags": [
+      "峽谷",
+      "水景",
+      "天然"
+    ],
+    "latitude": 24.1747,
+    "longitude": 121.6226
   },
   {
     "id": 5,
@@ -78,16 +163,36 @@
     "difficulty": "簡單",
     "region": "台北市",
     "description": "適合親子健行，可見火山地形與硫磺氣孔。",
-    "image": "https://lh3.googleusercontent.com/gps-cs-s/AB5caB_dN6tPfqN-_9S3_u6EXWY7wJzRnqLu_6uIEPblX8TKy_7ekzSFmR3V_Nl4nuxd36hk-j0t3To_f14afA9IlO4dPD1DLgGwz72yAPn8QqP-bzlSYVfbXeMNXq84748GJgopppJAjg=s1360-w1360-h1020",
+    "image": "https://lh3.googleusercontent.com/places/ANJU3DvjRJ8OJ6jFnNEyIJheJmGC18OT1QxfktsF4aXKy0i_MKt6nToBcwEYQdwMdix6cYgp89jXrAZnCCto6sisFRoagzT_dIflHMw=s1600-w2880",
     "rating": 4.2,
-    "seasons": ["春", "秋"],
-    "terrain": ["火山", "溫泉"],
-    "features": ["火山景觀", "溫泉氣孔"],
-    "hazards": ["硫磺氣味濃烈"],
+    "seasons": [
+      "春",
+      "秋"
+    ],
+    "terrain": [
+      "火山",
+      "溫泉"
+    ],
+    "features": [
+      "火山景觀",
+      "溫泉氣孔"
+    ],
+    "hazards": [
+      "硫磺氣味濃烈"
+    ],
     "tips": "氣味強烈者請戴口罩，勿長時間逗留氣孔旁。",
-    "nearbyTrails": ["擎天崗步道", "大屯山步道"],
+    "nearbyTrails": [
+      "擎天崗步道",
+      "大屯山步道"
+    ],
     "lastUpdated": "2025-03-26",
-    "tags": ["火山", "親子", "自然教育"]
+    "tags": [
+      "火山",
+      "親子",
+      "自然教育"
+    ],
+    "latitude": 25.1669,
+    "longitude": 121.5603
   },
   {
     "id": 6,
@@ -98,14 +203,36 @@
     "description": "橫跨中央山脈的歷史古道，適合進階長程登山者。",
     "image": "https://www.ysnp.gov.tw/UploadPlugin?file=p8bShILeHWLObxkNFwp%2BU9jDGbvbmEwOsyz1n1HLlaGdCPHi1MGYoserJWghQqYkXDc%2B1dfwgcruwTP2UEiRGA%3D%3D",
     "rating": 4.9,
-    "seasons": ["春", "秋"],
-    "terrain": ["高山", "森林", "溪谷"],
-    "features": ["古道歷史", "壯麗山景"],
-    "hazards": ["迷路風險高", "天氣多變"],
+    "seasons": [
+      "春",
+      "秋"
+    ],
+    "terrain": [
+      "高山",
+      "森林",
+      "溪谷"
+    ],
+    "features": [
+      "古道歷史",
+      "壯麗山景"
+    ],
+    "hazards": [
+      "迷路風險高",
+      "天氣多變"
+    ],
     "tips": "建議有嚮導同行並申請入山證。",
-    "nearbyTrails": ["玉山步道", "郡大山步道"],
+    "nearbyTrails": [
+      "玉山步道",
+      "郡大山步道"
+    ],
     "lastUpdated": "2025-03-27",
-    "tags": ["古道", "長程", "歷史"]
+    "tags": [
+      "古道",
+      "長程",
+      "歷史"
+    ],
+    "latitude": 23.3896,
+    "longitude": 120.9592
   },
   {
     "id": 7,
@@ -116,14 +243,34 @@
     "description": "鄰近市區，視野遼闊，是熱門健行地點。",
     "image": "https://newtaipei.travel/content/images/attractions/43269/1024x768_attractions-image-l67qdnlml0--ecnv_co1ja.jpg",
     "rating": 4.3,
-    "seasons": ["春", "秋", "冬"],
-    "terrain": ["丘陵"],
-    "features": ["展望良好", "市區近郊"],
-    "hazards": ["午後日曬強烈"],
+    "seasons": [
+      "春",
+      "秋",
+      "冬"
+    ],
+    "terrain": [
+      "丘陵"
+    ],
+    "features": [
+      "展望良好",
+      "市區近郊"
+    ],
+    "hazards": [
+      "午後日曬強烈"
+    ],
     "tips": "建議早上或傍晚造訪以避開高溫。",
-    "nearbyTrails": ["大坑步道", "筍寮古道"],
+    "nearbyTrails": [
+      "大坑步道",
+      "筍寮古道"
+    ],
     "lastUpdated": "2025-03-28",
-    "tags": ["市區近郊", "展望", "簡單"]
+    "tags": [
+      "市區近郊",
+      "展望",
+      "簡單"
+    ],
+    "latitude": 25.0984,
+    "longitude": 121.5412
   },
   {
     "id": 8,
@@ -134,14 +281,33 @@
     "description": "最易親近的百岳之一，景色壯麗。",
     "image": "https://mlntbrk08fdu.i.optimole.com/cb:DuOJ.37a97/w:1024/h:683/q:mauto/rt:fill/g:sm/f:best/https://flysonice30.com/wp-content/uploads/2023/11/%E7%B8%AE%E5%9C%96lalaport6H5A3712-2.jpg",
     "rating": 4.8,
-    "seasons": ["春", "秋"],
-    "terrain": ["高山"],
-    "features": ["高山景觀", "雲海"],
-    "hazards": ["高山症"],
+    "seasons": [
+      "春",
+      "秋"
+    ],
+    "terrain": [
+      "高山"
+    ],
+    "features": [
+      "高山景觀",
+      "雲海"
+    ],
+    "hazards": [
+      "高山症"
+    ],
     "tips": "避免劇烈運動，注意高山反應。",
-    "nearbyTrails": ["合歡東峰", "石門山步道"],
+    "nearbyTrails": [
+      "合歡東峰",
+      "石門山步道"
+    ],
     "lastUpdated": "2025-03-29",
-    "tags": ["百岳", "雲海", "高山"]
+    "tags": [
+      "百岳",
+      "雲海",
+      "高山"
+    ],
+    "latitude": 24.1429,
+    "longitude": 121.2736
   },
   {
     "id": 9,
@@ -152,14 +318,34 @@
     "description": "步道平緩，可至美麗瀑布與溪谷賞景。",
     "image": "https://i.ytimg.com/vi/T8cMvdlLxxg/maxresdefault.jpg",
     "rating": 4.4,
-    "seasons": ["春", "夏"],
-    "terrain": ["溪谷", "瀑布"],
-    "features": ["瀑布", "親水景觀"],
-    "hazards": ["蚊蟲多"],
+    "seasons": [
+      "春",
+      "夏"
+    ],
+    "terrain": [
+      "溪谷",
+      "瀑布"
+    ],
+    "features": [
+      "瀑布",
+      "親水景觀"
+    ],
+    "hazards": [
+      "蚊蟲多"
+    ],
     "tips": "建議穿著防蚊裝備，注意濕滑。",
-    "nearbyTrails": ["新寮瀑布步道", "福山植物園步道"],
+    "nearbyTrails": [
+      "新寮瀑布步道",
+      "福山植物園步道"
+    ],
     "lastUpdated": "2025-03-30",
-    "tags": ["瀑布", "親水", "親民"]
+    "tags": [
+      "瀑布",
+      "親水",
+      "親民"
+    ],
+    "latitude": 24.7025,
+    "longitude": 121.7313
   },
   {
     "id": 10,
@@ -170,14 +356,33 @@
     "description": "沿途有原始林相，終點視野遼闊。",
     "image": "https://cc.tvbs.com.tw/img/program/upload/2023/08/02/20230802153359-25dc0702.jpg",
     "rating": 4.6,
-    "seasons": ["秋", "冬"],
-    "terrain": ["山林"],
-    "features": ["林相原始", "展望好"],
-    "hazards": ["濃霧"],
+    "seasons": [
+      "秋",
+      "冬"
+    ],
+    "terrain": [
+      "山林"
+    ],
+    "features": [
+      "林相原始",
+      "展望好"
+    ],
+    "hazards": [
+      "濃霧"
+    ],
     "tips": "天候變化快，建議早出發。",
-    "nearbyTrails": ["雪見林道", "神仙谷步道"],
+    "nearbyTrails": [
+      "雪見林道",
+      "神仙谷步道"
+    ],
     "lastUpdated": "2025-04-02",
-    "tags": ["展望", "原始", "森林"]
+    "tags": [
+      "展望",
+      "原始",
+      "森林"
+    ],
+    "latitude": 24.5591,
+    "longitude": 121.1523
   },
   {
     "id": 11,
@@ -188,14 +393,33 @@
     "description": "台南最高峰，視野遼闊，秋冬常見雲海。",
     "image": "https://metywen.com/wp-content/uploads/2022/11/E6347E30-BE59-49AF-8477-E63E836070FE-1024x769.jpeg",
     "rating": 4.5,
-    "seasons": ["秋", "冬"],
-    "terrain": ["丘陵", "森林"],
-    "features": ["雲海", "森林浴"],
-    "hazards": ["部分路段滑"],
+    "seasons": [
+      "秋",
+      "冬"
+    ],
+    "terrain": [
+      "丘陵",
+      "森林"
+    ],
+    "features": [
+      "雲海",
+      "森林浴"
+    ],
+    "hazards": [
+      "部分路段滑"
+    ],
     "tips": "清晨造訪可遇到雲海景色。",
-    "nearbyTrails": ["水火同源步道"],
+    "nearbyTrails": [
+      "水火同源步道"
+    ],
     "lastUpdated": "2025-04-01",
-    "tags": ["雲海", "高處視野", "森林"]
+    "tags": [
+      "雲海",
+      "高處視野",
+      "森林"
+    ],
+    "latitude": 23.3444,
+    "longitude": 120.5094
   },
   {
     "id": 12,
@@ -206,14 +430,33 @@
     "description": "古道穿越山林與涼亭，秋天芒花景色迷人。",
     "image": "https://newtaipei.travel/content/images/attractions/39627/1024x768_attractions-image-g7gobiqghuiy4ek1hv981w.jpg",
     "rating": 4.6,
-    "seasons": ["秋"],
-    "terrain": ["山丘", "古道"],
-    "features": ["芒草", "歷史碑文"],
-    "hazards": ["風大", "少遮蔭"],
+    "seasons": [
+      "秋"
+    ],
+    "terrain": [
+      "山丘",
+      "古道"
+    ],
+    "features": [
+      "芒草",
+      "歷史碑文"
+    ],
+    "hazards": [
+      "風大",
+      "少遮蔭"
+    ],
     "tips": "秋天芒花季節最值得造訪。",
-    "nearbyTrails": ["桃源谷步道"],
+    "nearbyTrails": [
+      "桃源谷步道"
+    ],
     "lastUpdated": "2025-02-25",
-    "tags": ["芒草", "古道", "秋季限定"]
+    "tags": [
+      "芒草",
+      "古道",
+      "秋季限定"
+    ],
+    "latitude": 24.9719,
+    "longitude": 121.9154
   },
   {
     "id": 13,
@@ -224,14 +467,31 @@
     "description": "海岸線綠石槽奇觀，春季最為壯觀。",
     "image": "https://www.csbc.com.tw/wp-content/uploads/2024/03/image-1-15.jpg",
     "rating": 4.3,
-    "seasons": ["春"],
-    "terrain": ["海岸"],
-    "features": ["綠石槽", "潮間帶"],
-    "hazards": ["岩石濕滑"],
+    "seasons": [
+      "春"
+    ],
+    "terrain": [
+      "海岸"
+    ],
+    "features": [
+      "綠石槽",
+      "潮間帶"
+    ],
+    "hazards": [
+      "岩石濕滑"
+    ],
     "tips": "退潮時欣賞最清楚，避免踩踏石槽。",
-    "nearbyTrails": ["富貴角燈塔步道"],
+    "nearbyTrails": [
+      "富貴角燈塔步道"
+    ],
     "lastUpdated": "2025-01-25",
-    "tags": ["海岸", "攝影", "春季限定"]
+    "tags": [
+      "海岸",
+      "攝影",
+      "春季限定"
+    ],
+    "latitude": 25.2982,
+    "longitude": 121.5266
   },
   {
     "id": 14,
@@ -242,14 +502,33 @@
     "description": "昔日伐木路線，如今成為熱門山林步道。",
     "image": "https://storage.googleapis.com/smiletaiwan-cms-cwg-tw/article/202406/article-666bf7202cf9d.jpg",
     "rating": 4.5,
-    "seasons": ["春", "秋"],
-    "terrain": ["森林", "溪流"],
-    "features": ["森林步道", "溪流景觀"],
-    "hazards": ["山區午後雷陣雨"],
+    "seasons": [
+      "春",
+      "秋"
+    ],
+    "terrain": [
+      "森林",
+      "溪流"
+    ],
+    "features": [
+      "森林步道",
+      "溪流景觀"
+    ],
+    "hazards": [
+      "山區午後雷陣雨"
+    ],
     "tips": "雨季地面濕滑，請穿防滑鞋。",
-    "nearbyTrails": ["司馬庫斯步道"],
+    "nearbyTrails": [
+      "司馬庫斯步道"
+    ],
     "lastUpdated": "2025-01-22",
-    "tags": ["森林", "溪流", "古道"]
+    "tags": [
+      "森林",
+      "溪流",
+      "古道"
+    ],
+    "latitude": 24.8288,
+    "longitude": 121.5371
   },
   {
     "id": 15,
@@ -260,14 +539,35 @@
     "description": "沿著石階通往著名土地公廟，可眺望台北夜景。",
     "image": "https://newtaipei.travel/content/images/attractions/25329/1024x768_attractions-image-lddnavucn0y8vncrciiulq.jpg",
     "rating": 4.2,
-    "seasons": ["春", "夏", "秋", "冬"],
-    "terrain": ["丘陵", "宗教"],
-    "features": ["夜景", "宗教文化"],
-    "hazards": ["人潮擁擠"],
+    "seasons": [
+      "春",
+      "夏",
+      "秋",
+      "冬"
+    ],
+    "terrain": [
+      "丘陵",
+      "宗教"
+    ],
+    "features": [
+      "夜景",
+      "宗教文化"
+    ],
+    "hazards": [
+      "人潮擁擠"
+    ],
     "tips": "假日人多建議避開高峰時段。",
-    "nearbyTrails": ["五分山步道"],
+    "nearbyTrails": [
+      "五分山步道"
+    ],
     "lastUpdated": "2025-02-26",
-    "tags": ["夜景", "宗教", "親民"]
+    "tags": [
+      "夜景",
+      "宗教",
+      "親民"
+    ],
+    "latitude": 25.0019,
+    "longitude": 121.3646
   },
   {
     "id": 16,
@@ -278,14 +578,33 @@
     "description": "原住民古道，有豐富歷史與自然景觀。",
     "image": "https://owlting-blog-media.s3.ap-northeast-1.amazonaws.com/wp-content/uploads/2020/11/03145322/1590119745phpnfHRv6.jpeg",
     "rating": 4.8,
-    "seasons": ["春", "秋"],
-    "terrain": ["高山", "森林"],
-    "features": ["歷史古道", "原住民文化"],
-    "hazards": ["路況複雜"],
+    "seasons": [
+      "春",
+      "秋"
+    ],
+    "terrain": [
+      "高山",
+      "森林"
+    ],
+    "features": [
+      "歷史古道",
+      "原住民文化"
+    ],
+    "hazards": [
+      "路況複雜"
+    ],
     "tips": "需事先申請入山證，並備妥裝備。",
-    "nearbyTrails": ["鎮西堡神木群步道"],
+    "nearbyTrails": [
+      "鎮西堡神木群步道"
+    ],
     "lastUpdated": "2025-01-21",
-    "tags": ["古道", "文化", "挑戰"]
+    "tags": [
+      "古道",
+      "文化",
+      "挑戰"
+    ],
+    "latitude": 24.5433,
+    "longitude": 121.3233
   },
   {
     "id": 17,
@@ -296,14 +615,34 @@
     "description": "阿里山森林遊樂區內，沿途有檜木與鐵道風光。",
     "image": "https://attach.mobile01.com/attach/202311/mobile01-01df68317a60946685f5faed9918998d.jpg",
     "rating": 4.4,
-    "seasons": ["春", "秋", "冬"],
-    "terrain": ["森林"],
-    "features": ["鐵道", "神木林"],
-    "hazards": ["濕滑"],
+    "seasons": [
+      "春",
+      "秋",
+      "冬"
+    ],
+    "terrain": [
+      "森林"
+    ],
+    "features": [
+      "鐵道",
+      "神木林"
+    ],
+    "hazards": [
+      "濕滑"
+    ],
     "tips": "適合全家共遊，注意孩童安全。",
-    "nearbyTrails": ["姊妹潭步道", "香林神木步道"],
+    "nearbyTrails": [
+      "姊妹潭步道",
+      "香林神木步道"
+    ],
     "lastUpdated": "2025-02-11",
-    "tags": ["森林", "鐵道", "親子"]
+    "tags": [
+      "森林",
+      "鐵道",
+      "親子"
+    ],
+    "latitude": 23.5086,
+    "longitude": 120.8022
   },
   {
     "id": 18,
@@ -314,14 +653,34 @@
     "description": "墾丁國家公園內，有珊瑚礁地形與熱帶植物。",
     "image": "https://www.dbnsa.gov.tw/att/pic/b_11005762.jpg",
     "rating": 4.1,
-    "seasons": ["冬", "春"],
-    "terrain": ["熱帶", "珊瑚礁"],
-    "features": ["熱帶林", "地質景觀"],
-    "hazards": ["強烈日曬"],
+    "seasons": [
+      "冬",
+      "春"
+    ],
+    "terrain": [
+      "熱帶",
+      "珊瑚礁"
+    ],
+    "features": [
+      "熱帶林",
+      "地質景觀"
+    ],
+    "hazards": [
+      "強烈日曬"
+    ],
     "tips": "建議早晨或傍晚造訪，請攜帶遮陽裝備。",
-    "nearbyTrails": ["龍磐公園", "風吹砂步道"],
+    "nearbyTrails": [
+      "龍磐公園",
+      "風吹砂步道"
+    ],
     "lastUpdated": "2025-02-13",
-    "tags": ["熱帶", "自然教育", "親子"]
+    "tags": [
+      "熱帶",
+      "自然教育",
+      "親子"
+    ],
+    "latitude": 21.9453,
+    "longitude": 120.8203
   },
   {
     "id": 19,
@@ -332,14 +691,33 @@
     "description": "太平洋海岸的地質奇觀，適合觀察潮間帶生態。",
     "image": "https://www.eastcoast-nsa.gov.tw/Image/28708/?r=1543312670276",
     "rating": 4.6,
-    "seasons": ["春", "夏"],
-    "terrain": ["海岸", "岩石"],
-    "features": ["潮間帶", "岩層"],
-    "hazards": ["岩石銳利"],
+    "seasons": [
+      "春",
+      "夏"
+    ],
+    "terrain": [
+      "海岸",
+      "岩石"
+    ],
+    "features": [
+      "潮間帶",
+      "岩層"
+    ],
+    "hazards": [
+      "岩石銳利"
+    ],
     "tips": "請勿赤腳行走，注意潮汐時間。",
-    "nearbyTrails": ["三仙台步道"],
+    "nearbyTrails": [
+      "三仙台步道"
+    ],
     "lastUpdated": "2025-02-14",
-    "tags": ["地質", "潮間帶", "親子"]
+    "tags": [
+      "地質",
+      "潮間帶",
+      "親子"
+    ],
+    "latitude": 23.4987,
+    "longitude": 121.5039
   },
   {
     "id": 20,
@@ -350,13 +728,34 @@
     "description": "著名百岳之一，奇岩聳立，路線具挑戰性。",
     "image": "https://i0.wp.com/aboexploring.com/wp-content/uploads/2021/11/IMG_0108.jpg?resize=1024%2C768&ssl=1",
     "rating": 4.9,
-    "seasons": ["夏", "秋"],
-    "terrain": ["高山", "岩壁"],
-    "features": ["奇岩怪石", "百岳"],
-    "hazards": ["高海拔", "天氣劇變"],
+    "seasons": [
+      "夏",
+      "秋"
+    ],
+    "terrain": [
+      "高山",
+      "岩壁"
+    ],
+    "features": [
+      "奇岩怪石",
+      "百岳"
+    ],
+    "hazards": [
+      "高海拔",
+      "天氣劇變"
+    ],
     "tips": "需提前申請入山入園，天氣不穩時應取消行程。",
-    "nearbyTrails": ["雪山登山口", "九九山莊"],
+    "nearbyTrails": [
+      "雪山登山口",
+      "九九山莊"
+    ],
     "lastUpdated": "2025-02-19",
-    "tags": ["百岳", "奇岩", "挑戰性"]
+    "tags": [
+      "百岳",
+      "奇岩",
+      "挑戰性"
+    ],
+    "latitude": 24.4612,
+    "longitude": 121.2597
   }
 ]
