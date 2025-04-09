@@ -8,7 +8,6 @@ import About from '../src/pages/about';
 import Login from '../src/pages/login';
 import Signup from '../src/pages/signup';
 import ForgetPassword from '../src/pages/forgetpassword';
-import Playground from '../src/pages/playground';
 import TraiPage from '../src/pages/exploretrail';
 import Maps from '../src/pages/maps';
 
@@ -24,7 +23,6 @@ const App = () => {
           
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/playground" element={<Playground />} />
             <Route path="/about" element={<About />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />

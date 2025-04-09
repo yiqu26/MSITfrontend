@@ -110,12 +110,12 @@ export default function TrailSection() {
                 type="button"
                 onClick={handleSignUp}
                 style={{
-                  background: 'linear-gradient(to right, #166534, #24321c, #2c3d22)',
+                  background: 'linear-gradient(to right, #15803d, #24321c, #2c3d22)',
                   width: '70px',
                 }}
                 className="relative inline-flex items-center justify-center rounded-full px-24 sm:px-28 py-5 sm:py-6 text-xl sm:text-2xl font-bold text-white transition-all duration-300 hover:scale-[1.02] shadow-lg hover:shadow-2xl group border border-white/10"
               >
-                <span className="text-2xl tracking-wider whitespace-nowrap text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]"><ShinyText text="GO!" disabled={false} speed={6} className='custom-class' /></span>
+                <span className="text-2xl tracking-wider whitespace-nowrap text-white "><ShinyText text="GO!" disabled={false} speed={6} className='custom-class' /></span>
                
               </button>
             </div>
