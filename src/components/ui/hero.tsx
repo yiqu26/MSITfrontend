@@ -1,5 +1,4 @@
 // src/components/Hero.js
-import React from 'react';
 import VideoBanner from './videobanner'
 import BlurText from './blur';
 

@@ -18,7 +18,6 @@ import {
 } from "@/components/ui/carousel";
 import L from 'leaflet';
 import trailsData from '@/data/trails.json';
-import TrailHorizontalCards from "@/components/ui/TrailHorizontalCards";
 import { Trail } from '@/types/trail';
 
 // Leaflet 預設圖標修正

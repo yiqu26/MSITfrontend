@@ -1,7 +1,4 @@
 // src/components/Menu.js
-import React from 'react';
-import { Card } from './card';
-import SimpleCard from './simplecard';
 import  TrailCard  from './trailcard';
 
 const Menu = () => {

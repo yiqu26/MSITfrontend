@@ -1,5 +1,5 @@
 // src/components/Header.js
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from './button';
 import Aurora from './aurora';
@@ -7,24 +7,24 @@ import { Menu } from 'lucide-react';
 
 const Header = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-
+    // update with your own items
     return (
         <header className="relative shadow-md top-0 z-50">
             <div className="absolute inset-0 overflow-hidden">
-                <Aurora colorStops={["#00d8ff", "#7cff67", "#00d8ff"]} amplitude={0.5} blend={0.3} />
+                <Aurora colorStops={["#00d8ff", "#7cff67", "#00d8ff"]} amplitude={0.6} blend={0.7} />
             </div>
             <nav className="relative flex items-center justify-between p-4 max-w-7xl mx-auto">
                 <div className="flex items-center -ml-4 md:w-[200px]">
                     <div className="relative group">
                         <div className="absolute inset-0 bg-primary/10 rounded-full blur-xl group-hover:bg-primary/20 transition-colors duration-300" />
-                        <img 
-                            src="https://cdn-icons-png.flaticon.com/512/1785/1785210.png" 
-                            alt="Logo" 
+                        <img
+                            src="https://cdn-icons-png.flaticon.com/512/1785/1785210.png"
+                            alt="Logo"
                             className="w-16 h-16 rounded-full object-cover p-1 transition-transform duration-300 group-hover:scale-105"
                         />
                     </div>
                 </div>
-                <button 
+                <button
                     className="md:hidden p-2 hover:bg-primary/10 rounded-lg transition-colors"
                     onClick={() => setIsMenuOpen(!isMenuOpen)}
                 >

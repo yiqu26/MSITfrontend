@@ -30,7 +30,7 @@
     "embla-carousel-react": "^8.6.0",
     "framer-motion": "^12.6.3",
     "leaflet": "^1.9.4",
-    "lucide-react": "^0.486.0",
+    "lucide-react": "^0.487.0",
     "motion": "^12.6.2",
     "next": "^15.2.4",
     "next-images": "^1.8.5",
@@ -47,6 +47,7 @@
     "tailwindcss-animate": "^1.0.7",
     "three": "^0.167.1",
     "typescript": "^4.9.5",
+    "usehooks-ts": "^3.1.1",
     "vaul": "^1.1.2",
     "web-vitals": "^2.1.4"
   },
