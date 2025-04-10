@@ -16,7 +16,11 @@ const TrailStats = () => {
     <section className="w-full bg-[#f7f5ef] dark:bg-zinc-900 py-12 sm:py-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div ref={ref} className="text-center mb-12">
-          <GradientText showBorder={false} className="text-3xl font-sans px-4 py-2">
+          <GradientText 
+            showBorder={false} 
+            className="text-3xl font-sans"
+            colors={["#0ea5e9", "#8b5cf6", "#10b981"]}
+          >
             台灣步道數據
           </GradientText>
           <p className="mt-4 text-lg text-[#24321c]/80 dark:text-zinc-300">

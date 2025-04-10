@@ -118,7 +118,11 @@ const TrailCarousel = () => {
         <div className="px-4 py-6 max-w-7xl mx-auto">
             {error && <p className="text-red-500">錯誤：{error}</p>}
             <div className="flex flex-col items-center mb-6">
-                <GradientText showBorder={false} className="text-3xl font-sans">
+                <GradientText 
+                    showBorder={false} 
+                    className="text-3xl font-sans"
+                    colors={["#0ea5e9", "#8b5cf6", "#10b981"]}
+                >
                     附近推薦步道
                 </GradientText>
                 <p className="text-gray-600 dark:text-gray-400 mt-2">

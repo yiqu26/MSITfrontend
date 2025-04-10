@@ -1,6 +1,6 @@
 // TrailCardGrid.tsx
 import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
-import { motion, AnimatePresence, LayoutGroup } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -17,100 +17,80 @@ interface TrailCardGridProps {
 interface TrailCardProps {
   trail: Trail;
   isFavorite: boolean;
-  onToggleFavorite: () => void;
+  onToggleFavorite: (id: number) => void;
 }
 
 type SortOption = 'rating' | 'length' | 'newest';
 
-// 卡片動畫變體 - 使用較溫和的動畫效果
+// 簡化的卡片動畫
 const cardVariants = {
-  hidden: { opacity: 0, scale: 0.9 },
+  hidden: { opacity: 0, scale: 0.98 },
   visible: { 
     opacity: 1, 
     scale: 1,
     transition: { 
-      type: "spring", 
-      stiffness: 260, 
-      damping: 20,
-      duration: 0.3 
+      type: "tween", 
+      duration: 0.15 
     }
   },
   exit: { 
     opacity: 0,
-    scale: 0.95,
-    transition: { duration: 0.2, ease: "easeOut" }
+    transition: { duration: 0.1 }
   }
 };
 
-// 容器動畫變體
+// 簡化的容器動畫
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: { 
     opacity: 1,
     transition: {
-      staggerChildren: 0.05, // 子元素錯開顯示
-      delayChildren: 0.1,    // 稍微延遲子元素動畫
+      staggerChildren: 0.02,
     }
   },
-  exit: { 
-    opacity: 0,
-    transition: { 
-      staggerChildren: 0.03,
-      staggerDirection: -1   // 反向錯開，創造更自然的退場效果
-    }
-  }
+  exit: { opacity: 0 }
 };
 
 // 單個卡片組件抽離出來，使用memo減少渲染
 const TrailCard = React.memo(({ trail, isFavorite, onToggleFavorite }: TrailCardProps) => {
   const [isCommentOpen, setIsCommentOpen] = useState(false);
 
-  const getDifficultyColor = (difficulty: string) => {
-    switch (difficulty) {
-      case "簡單":
-        return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300";
-      case "普通":
-        return "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300";
-      case "困難":
-        return "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300";
-      default:
-        return "bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-300";
-    }
-  };
-
-  const getTrailReviews = (trailId: number) => {
-    const trailComment = trailComments.find(tc => tc.trailId === trailId);
+  // 使用useMemo減少不必要的計算
+  const trailReviews = useMemo(() => {
+    const trailComment = trailComments.find(tc => tc.trailId === trail.id);
     return trailComment ? trailComment.reviews : [];
-  };
+  }, [trail.id]);
+
+  // 預先定義事件處理程序以避免重新渲染時產生新的函數
+  const handleCardClick = useCallback(() => {
+    setIsCommentOpen(true);
+  }, []);
+
+  const handleFavoriteClick = useCallback((e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    onToggleFavorite(trail.id);
+  }, [onToggleFavorite, trail.id]);
+
+  const handleCloseComment = useCallback(() => {
+    setIsCommentOpen(false);
+  }, []);
 
   return (
     <>
-      <motion.div 
-        layout
-        variants={cardVariants}
-        initial="hidden"
-        animate="visible"
-        exit="exit"
-        className="relative group overflow-hidden rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 shadow-md hover:shadow-lg transition-all"
-        whileHover={{ y: -4, transition: { duration: 0.2 } }}
-        onClick={() => setIsCommentOpen(true)}
-      >
+      <div className="relative group overflow-hidden rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 shadow-md hover:shadow-lg transition-all"
+        onClick={handleCardClick}>
         <div className="relative aspect-[4/3] bg-muted overflow-hidden">
           <img
             src={trail.image}
             alt={trail.name}
-            className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
+            className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105"
             loading="lazy"
+            decoding="async"
           />
-          <motion.button
+          <button
             className="absolute top-2 right-2 z-10"
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              onToggleFavorite();
-            }}
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
+            onClick={handleFavoriteClick}
           >
             <HeartIcon
               className={cn(
@@ -120,7 +100,7 @@ const TrailCard = React.memo(({ trail, isFavorite, onToggleFavorite }: TrailCard
                   : "fill-white/30 stroke-white"
               )}
             />
-          </motion.button>
+          </button>
         </div>
 
         <div className="p-4">
@@ -148,8 +128,8 @@ const TrailCard = React.memo(({ trail, isFavorite, onToggleFavorite }: TrailCard
             </Badge>
           </div>
 
-          <h3 className="text-xl font-bold mb-2 text-slate-800 dark:text-white">{trail.name}</h3>
-          <p className="text-slate-600 dark:text-slate-300 mb-4 text-sm">{trail.description}</p>
+          <h3 className="text-xl font-bold mb-2 text-slate-800 dark:text-white truncate">{trail.name}</h3>
+          <p className="text-slate-600 dark:text-slate-300 mb-4 text-sm line-clamp-2">{trail.description}</p>
 
           <div className="flex justify-between text-sm mb-2 text-slate-500 dark:text-slate-400">
             <span>{trail.region}</span>
@@ -176,13 +156,13 @@ const TrailCard = React.memo(({ trail, isFavorite, onToggleFavorite }: TrailCard
             )}
           </div>
         </div>
-      </motion.div>
+      </div>
 
       <TrailCommentDialog
         isOpen={isCommentOpen}
-        onClose={() => setIsCommentOpen(false)}
+        onClose={handleCloseComment}
         trailName={trail.name}
-        reviews={getTrailReviews(trail.id)}
+        reviews={trailReviews}
       />
     </>
   );
@@ -191,245 +171,254 @@ const TrailCard = React.memo(({ trail, isFavorite, onToggleFavorite }: TrailCard
 TrailCard.displayName = 'TrailCard';
 
 const TrailCardGrid: React.FC<TrailCardGridProps> = ({ trails }) => {
-  // 使用useRef避免不必要的effect觸發
-  const isFiltering = useRef(false);
-  const prevFilters = useRef({ difficulty: 'all', region: 'all', season: 'all' });
-  
-  // 使用單一狀態物件來管理過濾條件
   const [filterState, setFilterState] = useState({
     difficulty: 'all',
     region: 'all',
     season: 'all',
     sortBy: 'rating' as SortOption,
-    currentPage: 1
+    searchTerm: '',
+    currentPage: 1,
+    showFavoritesOnly: false
   });
   
-  const [favorites, setFavorites] = useState<number[]>([]);
-  const [filteredTrails, setFilteredTrails] = useState<Trail[]>([]);
-  const [isAnimating, setIsAnimating] = useState(false);
-  const itemsPerPage = 12;
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   
-  // 優化性能的虛擬化列表邏輯
-  const allTrailsMap = useMemo(() => {
-    const map = new Map<number, Trail>();
-    trails.forEach(trail => map.set(trail.id, trail));
-    return map;
+  // 使用useRef保存favorites，避免收藏時觸發不必要的重渲染
+  const favoritesRef = useRef<Set<number>>(new Set()); 
+  const [favorites, setFavorites] = useState<number[]>(() => {
+    // 從localStorage中獲取收藏列表
+    if (typeof window !== 'undefined') {
+      const savedFavorites = localStorage.getItem('trailFavorites');
+      const parsed = savedFavorites ? JSON.parse(savedFavorites) : [];
+      favoritesRef.current = new Set(parsed);
+      return parsed;
+    }
+    return [];
+  });
+  
+  // 改為每頁顯示3x3=9個卡片
+  const itemsPerPage = 9;
+  
+  // 保存步道數據狀態
+  const [trailState, setTrailState] = useState({
+    filteredTrails: [] as Trail[],
+    visibleTrails: [] as Trail[],
+    isFiltering: false,
+    totalPages: 0
+  });
+  
+  // 使用memoization避免重複計算
+  const uniqueRegions = useMemo(() => {
+    const regions = new Set(trails.map(trail => trail.region));
+    return ['all', ...Array.from(regions)];
   }, [trails]);
   
-  // 簡化的重置過濾器 - 只更新一次狀態，減少重渲染
-  const resetFilters = useCallback(() => {
-    // 檢查是否需要重置 (當前已經是初始狀態則不需要)
-    if (
-      filterState.difficulty === 'all' && 
-      filterState.region === 'all' && 
-      filterState.season === 'all' && 
-      filterState.sortBy === 'rating' && 
-      filterState.currentPage === 1
-    ) {
-      return;
+  // 使用memoization優化過濾邏輯
+  const performFiltering = useCallback((newFilter?: Partial<typeof filterState>) => {
+    // 合併過濾條件
+    const activeFilter = newFilter ? { ...filterState, ...newFilter } : filterState;
+    
+    setTrailState(prev => ({ ...prev, isFiltering: true }));
+    
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
     }
     
-    // 設置動畫標記
-    setIsAnimating(true);
-    
-    // 儲存當前過濾條件用於變換動畫
-    prevFilters.current = {
-      difficulty: filterState.difficulty,
-      region: filterState.region,
-      season: filterState.season
-    };
-    
-    // 使用requestAnimationFrame確保UI更新先執行
-    requestAnimationFrame(() => {
-      setFilterState({
-        difficulty: 'all',
-        region: 'all',
-        season: 'all',
-        sortBy: 'rating',
-        currentPage: 1
-      });
+    timeoutRef.current = setTimeout(() => {
+      try {
+        let result = [...trails];
+        
+        if (activeFilter.difficulty !== 'all') {
+          result = result.filter(trail => trail.difficulty === activeFilter.difficulty);
+        }
+        
+        if (activeFilter.region !== 'all') {
+          result = result.filter(trail => trail.region === activeFilter.region);
+        }
+        
+        if (activeFilter.season !== 'all') {
+          result = result.filter(trail => trail.seasons.includes(activeFilter.season));
+        }
+        
+        if (activeFilter.showFavoritesOnly) {
+          result = result.filter(trail => favoritesRef.current.has(trail.id));
+        }
+        
+        if (activeFilter.searchTerm) {
+          const term = activeFilter.searchTerm.toLowerCase();
+          result = result.filter(trail => 
+            trail.name.toLowerCase().includes(term) || 
+            trail.description.toLowerCase().includes(term) ||
+            trail.tags.some(tag => tag.toLowerCase().includes(term))
+          );
+        }
+        
+        // 簡化排序邏輯
+        result.sort((a, b) => {
+          if (activeFilter.sortBy === 'rating') return b.rating - a.rating;
+          if (activeFilter.sortBy === 'length') return a.length - b.length;
+          return b.id - a.id; // 'newest'
+        });
+        
+        // 計算總頁數
+        const totalPages = Math.ceil(result.length / itemsPerPage);
+        
+        // 確保頁碼有效
+        const effectivePage = Math.min(Math.max(1, activeFilter.currentPage), totalPages || 1);
+        
+        // 計算當前頁的步道
+        const startIndex = (effectivePage - 1) * itemsPerPage;
+        const endIndex = startIndex + itemsPerPage;
+        const visibleTrails = result.slice(startIndex, endIndex);
+        
+        // 更新狀態
+        setTrailState({
+          filteredTrails: result,
+          visibleTrails: visibleTrails,
+          isFiltering: false,
+          totalPages: totalPages
+        });
+        
+        // 如果當前頁碼與有效頁碼不同，更新頁碼
+        if (effectivePage !== activeFilter.currentPage) {
+          setFilterState(prev => ({ ...prev, currentPage: effectivePage }));
+        }
+      } catch (error) {
+        console.error('過濾步道時出錯:', error);
+        setTrailState(prev => ({ ...prev, isFiltering: false }));
+      }
+    }, 100);
+  }, [trails, filterState, itemsPerPage]);
+  
+  // 初始化和篩選條件變更時更新
+  useEffect(() => {
+    performFiltering();
+  }, [
+    filterState.difficulty, 
+    filterState.region, 
+    filterState.season, 
+    filterState.sortBy,
+    filterState.searchTerm,
+    filterState.showFavoritesOnly,
+    performFiltering
+  ]);
+  
+  // 當頁碼變化時更新顯示步道
+  useEffect(() => {
+    if (!trailState.isFiltering && trailState.filteredTrails.length > 0) {
+      const startIndex = (filterState.currentPage - 1) * itemsPerPage;
+      const endIndex = startIndex + itemsPerPage;
+      const visibleTrails = trailState.filteredTrails.slice(startIndex, endIndex);
       
-      // 使用離屏渲染或web worker來減輕主線程負擔
-      setTimeout(() => {
-        setFilteredTrails([...trails]);
-        setTimeout(() => setIsAnimating(false), 300);
-      }, 50);
+      setTrailState(prev => ({ ...prev, visibleTrails }));
+    }
+  }, [filterState.currentPage, trailState.filteredTrails, trailState.isFiltering, itemsPerPage]);
+  
+  // 優化收藏功能，避免整個列表重新渲染
+  const toggleFavorite = useCallback((trailId: number) => {
+    if (favoritesRef.current.has(trailId)) {
+      favoritesRef.current.delete(trailId);
+    } else {
+      favoritesRef.current.add(trailId);
+    }
+    
+    // 使用requestAnimationFrame延遲更新DOM狀態，避免卡頓
+    requestAnimationFrame(() => {
+      const newFavorites = Array.from(favoritesRef.current);
+      setFavorites(newFavorites);
+      
+      // 寫入localStorage
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('trailFavorites', JSON.stringify(newFavorites));
+      }
+      
+      // 只有在查看收藏時才更新過濾結果
+      if (filterState.showFavoritesOnly) {
+        performFiltering();
+      }
     });
-  }, [filterState, trails]);
-
-  // 切換收藏 - 使用記憶化避免不必要的重渲染
-  const toggleFavorite = useCallback((id: number) => {
-    setFavorites(prev =>
-      prev.includes(id)
-        ? prev.filter(i => i !== id)
-        : [...prev, id]
-    );
+  }, [filterState.showFavoritesOnly, performFiltering]);
+  
+  const resetFilters = useCallback(() => {
+    setFilterState({
+      difficulty: 'all',
+      region: 'all',
+      season: 'all',
+      sortBy: 'rating',
+      searchTerm: '',
+      currentPage: 1,
+      showFavoritesOnly: false
+    });
   }, []);
   
-  // 統一處理所有過濾狀態變更 - 避免重複渲染邏輯
-  const handleFilterChange = useCallback((key: string, value: string) => {
-    // 如果值沒有變化，則不觸發狀態更新
-    if (filterState[key as keyof typeof filterState] === value) {
-      return;
+  // 計算頁碼按鈕
+  const pageNumbers = useMemo(() => {
+    const maxPages = 5;
+    let startPage = Math.max(1, filterState.currentPage - Math.floor(maxPages / 2));
+    let endPage = Math.min(trailState.totalPages, startPage + maxPages - 1);
+    
+    if (endPage - startPage + 1 < maxPages) {
+      startPage = Math.max(1, endPage - maxPages + 1);
     }
     
-    // 設置動畫標記
-    setIsAnimating(true);
-    
-    // 保存前一個過濾狀態以便動畫比較
-    prevFilters.current = {
-      difficulty: filterState.difficulty,
-      region: filterState.region,
-      season: filterState.season
-    };
-    
-    // 使用requestAnimationFrame確保UI更新順暢
-    const rafId = requestAnimationFrame(() => {
-      setFilterState(prev => ({
-        ...prev,
-        [key]: value,
-        currentPage: 1 // 重置頁面
-      }));
-    });
-    
-    return () => cancelAnimationFrame(rafId);
-  }, [filterState]);
+    return Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i);
+  }, [filterState.currentPage, trailState.totalPages]);
   
-  // 批量處理頁面變更 - 減少狀態更新次數
-  const handlePageChange = useCallback((newPage: number) => {
-    if (newPage === filterState.currentPage) return;
-    
-    setIsAnimating(true);
-    
-    requestAnimationFrame(() => {
-      setFilterState(prev => ({ ...prev, currentPage: newPage }));
-      // 頁面切換時使用較短的延遲時間
-      setTimeout(() => setIsAnimating(false), 200);
-    });
-  }, [filterState.currentPage]);
+  const handleFilterChange = useCallback((filter: keyof typeof filterState, value: any) => {
+    const newFilter = { [filter]: value, currentPage: 1 };
+    setFilterState(prev => ({ ...prev, ...newFilter }));
+  }, []);
   
-  // 篩選和排序 - 使用Web Worker模式減輕主線程負擔
-  useEffect(() => {
-    // 標記正在過濾
-    isFiltering.current = true;
+  // 簡化的頁面切換邏輯
+  const handlePageChange = useCallback((page: number) => {
+    // 避免無效頁碼或重複點擊當前頁
+    if (page < 1 || page > trailState.totalPages || page === filterState.currentPage) return;
     
-    const performFiltering = () => {
-      // 定義過濾邏輯，使用函數式風格讓代碼更清晰
-      const applyFilters = (data: Trail[]) => {
-        // 使用函數組合模式來構建過濾管道
-        const filterByDifficulty = (arr: Trail[]) => 
-          filterState.difficulty !== 'all' 
-            ? arr.filter(t => t.difficulty === filterState.difficulty)
-            : arr;
-        
-        const filterByRegion = (arr: Trail[]) => 
-          filterState.region !== 'all'
-            ? arr.filter(t => t.region === filterState.region)
-            : arr;
-            
-        const filterBySeason = (arr: Trail[]) => 
-          filterState.season !== 'all'
-            ? arr.filter(t => t.seasons.includes(filterState.season))
-            : arr;
-        
-        // 使用組合函數進行過濾
-        return filterBySeason(filterByRegion(filterByDifficulty(data)));
-      };
-      
-      // 定義排序邏輯
-      const applySort = (filteredData: Trail[]) => {
-        // 對於相同評分的情況，加入次級排序條件以確保穩定排序
-        if (filterState.sortBy === 'rating') {
-          return [...filteredData].sort((a, b) => b.rating - a.rating || a.name.localeCompare(b.name));
-        } else if (filterState.sortBy === 'length') {
-          return [...filteredData].sort((a, b) => a.length - b.length || a.name.localeCompare(b.name));
-        } else if (filterState.sortBy === 'newest') {
-          return [...filteredData].sort((a, b) => {
-            const dateA = new Date(a.lastUpdated).getTime();
-            const dateB = new Date(b.lastUpdated).getTime();
-            return dateB - dateA || a.name.localeCompare(b.name);
-          });
-        }
-        return filteredData;
-      };
-      
-      // 應用過濾和排序
-      const filtered = applyFilters(trails);
-      const sorted = applySort(filtered);
-      
-      // 更新狀態
-      setFilteredTrails(sorted);
-      
-      // 延遲重置動畫標記，使動畫有時間完成
-      setTimeout(() => {
-        setIsAnimating(false);
-        isFiltering.current = false;
-      }, 300);
-    };
+    // 更新頁碼
+    setFilterState(prev => ({ ...prev, currentPage: page }));
     
-    // 使用較短的延遲時間進行非阻塞處理
-    const timeoutId = setTimeout(performFiltering, 50);
-    
-    return () => clearTimeout(timeoutId);
-  }, [trails, filterState]);
-
-  // 計算當前頁面顯示的卡片 - 使用記憶化避免不必要的計算
-  const currentTrails = useMemo(() => {
-    const startIndex = (filterState.currentPage - 1) * itemsPerPage;
-    return filteredTrails.slice(startIndex, startIndex + itemsPerPage);
-  }, [filteredTrails, filterState.currentPage, itemsPerPage]);
-
-  // 計算總頁數
-  const totalPages = Math.ceil(filteredTrails.length / itemsPerPage);
+    // 滾動到頁面頂部
+    if (containerRef.current) {
+      containerRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }, [trailState.totalPages, filterState.currentPage]);
   
-  // 初始化元件
-  useEffect(() => {
-    setFilteredTrails(trails);
-  }, [trails]);
-
-  // 增強的篩選結果通知 - 提供更詳細的信息
-  const filterNotification = useMemo(() => {
-    if (filteredTrails.length === trails.length) {
-      return `顯示全部 ${trails.length} 個步道`;
+  const handleSearchChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
     }
     
-    const start = Math.min((filterState.currentPage - 1) * itemsPerPage + 1, filteredTrails.length);
-    const end = Math.min(filterState.currentPage * itemsPerPage, filteredTrails.length);
-    
-    let message = `顯示 ${filteredTrails.length} 個步道中的 ${start}-${end}`;
-    
-    const filters = [];
-    if (filterState.difficulty !== 'all') filters.push(`難度: ${filterState.difficulty}`);
-    if (filterState.region !== 'all') filters.push(`地區: ${filterState.region}`);
-    if (filterState.season !== 'all') filters.push(`季節: ${filterState.season}`);
-    
-    if (filters.length > 0) {
-      message += ` (${filters.join(', ')})`;
-    }
-    
-    return message;
-  }, [filteredTrails.length, trails.length, filterState, itemsPerPage]);
-
+    timeoutRef.current = setTimeout(() => {
+      setFilterState(prev => ({ ...prev, searchTerm: value, currentPage: 1 }));
+    }, 300);
+  }, []);
+  
+  const isEmpty = trailState.filteredTrails.length === 0;
+  
   return (
-    <div className="container mx-auto px-4 py-8 md:py-12 bg-slate-100 dark:bg-slate-900">
-     
-
-      <motion.div 
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.2 }}
-        className="bg-white dark:bg-slate-800 rounded-lg p-4 mb-8 shadow-lg border border-slate-200 dark:border-slate-700"
-      >
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+    <div ref={containerRef} className="container mx-auto px-4 py-6">
+      <div className="bg-white dark:bg-slate-800 p-4 rounded-lg mb-6 shadow-md">
+        <div className="flex flex-wrap items-center gap-4 mb-4">
+          <div className="w-full md:w-auto flex-1">
+            <input
+              type="text"
+              placeholder="搜尋步道..."
+              className="w-full p-2 border border-slate-300 dark:border-slate-600 rounded-lg dark:bg-slate-700 dark:text-white"
+              onChange={handleSearchChange}
+              defaultValue={filterState.searchTerm}
+            />
+          </div>
+          
           <div>
-            <label className="block text-sm font-medium text-slate-700 dark:text-gray-300 mb-1">難度</label>
-            <Select 
-              value={filterState.difficulty} 
+            <Select
+              value={filterState.difficulty}
               onValueChange={(value) => handleFilterChange('difficulty', value)}
-              disabled={isAnimating}
             >
-              <SelectTrigger className="w-full bg-white dark:bg-slate-700 border-slate-300 dark:border-slate-600">
-                <SelectValue placeholder="所有難度" />
+              <SelectTrigger className="w-[120px]">
+                <SelectValue placeholder="難度" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">所有難度</SelectItem>
@@ -439,42 +428,32 @@ const TrailCardGrid: React.FC<TrailCardGridProps> = ({ trails }) => {
               </SelectContent>
             </Select>
           </div>
-
+          
           <div>
-            <label className="block text-sm font-medium text-slate-700 dark:text-gray-300 mb-1">地區</label>
-            <Select 
-              value={filterState.region} 
+            <Select
+              value={filterState.region}
               onValueChange={(value) => handleFilterChange('region', value)}
-              disabled={isAnimating}
             >
-              <SelectTrigger className="w-full bg-white dark:bg-slate-700 border-slate-300 dark:border-slate-600">
-                <SelectValue placeholder="所有地區" />
+              <SelectTrigger className="w-[120px]">
+                <SelectValue placeholder="地區" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">所有地區</SelectItem>
-                <SelectItem value="台北市">台北市</SelectItem>
-                <SelectItem value="新北市">新北市</SelectItem>
-                <SelectItem value="宜蘭縣">宜蘭縣</SelectItem>
-                <SelectItem value="花蓮縣">花蓮縣</SelectItem>
-                <SelectItem value="南投縣">南投縣</SelectItem>
-                <SelectItem value="嘉義縣">嘉義縣</SelectItem>
-                <SelectItem value="屏東縣">屏東縣</SelectItem>
-                <SelectItem value="苗栗縣">苗栗縣</SelectItem>
-                <SelectItem value="台南市">台南市</SelectItem>
-                <SelectItem value="新竹縣">新竹縣</SelectItem>
+                {uniqueRegions.map(region => (
+                  <SelectItem key={region} value={region}>
+                    {region === 'all' ? '所有地區' : region}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
           </div>
-
+          
           <div>
-            <label className="block text-sm font-medium text-slate-700 dark:text-gray-300 mb-1">季節</label>
-            <Select 
-              value={filterState.season} 
+            <Select
+              value={filterState.season}
               onValueChange={(value) => handleFilterChange('season', value)}
-              disabled={isAnimating}
             >
-              <SelectTrigger className="w-full bg-white dark:bg-slate-700 border-slate-300 dark:border-slate-600">
-                <SelectValue placeholder="所有季節" />
+              <SelectTrigger className="w-[120px]">
+                <SelectValue placeholder="季節" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">所有季節</SelectItem>
@@ -485,126 +464,157 @@ const TrailCardGrid: React.FC<TrailCardGridProps> = ({ trails }) => {
               </SelectContent>
             </Select>
           </div>
-
+          
           <div>
-            <label className="block text-sm font-medium text-slate-700 dark:text-gray-300 mb-1">排序方式</label>
-            <Select 
-              value={filterState.sortBy} 
+            <Select
+              value={filterState.sortBy}
               onValueChange={(value) => handleFilterChange('sortBy', value as SortOption)}
-              disabled={isAnimating}
             >
-              <SelectTrigger className="w-full bg-white dark:bg-slate-700 border-slate-300 dark:border-slate-600">
-                <SelectValue placeholder="排序方式" />
+              <SelectTrigger className="w-[120px]">
+                <SelectValue placeholder="排序依據" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="rating">評分 (高至低)</SelectItem>
-                <SelectItem value="length">長度 (短至長)</SelectItem>
-                <SelectItem value="newest">最新更新</SelectItem>
+                <SelectItem value="rating">評分最高</SelectItem>
+                <SelectItem value="length">距離最短</SelectItem>
+                <SelectItem value="newest">最新</SelectItem>
               </SelectContent>
             </Select>
           </div>
-        </div>
-
-        <div className="flex flex-col sm:flex-row justify-between items-center mt-4 space-y-2 sm:space-y-0">
-          <Button
-            onClick={resetFilters}
-            variant="outline"
-            disabled={isAnimating}
-            className="w-full sm:w-auto bg-white dark:bg-transparent hover:bg-slate-100 dark:hover:bg-slate-700"
-          >
-            {isAnimating ? (
-              <span className="flex items-center">
-                <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-slate-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                </svg>
-                重設中...
-              </span>
-            ) : "重設過濾器"}
-          </Button>
           
-          <motion.div 
-            key={filterNotification}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="text-slate-600 dark:text-gray-300 text-sm bg-slate-100 dark:bg-slate-700 px-3 py-1 rounded-full"
-          >
-            {filterNotification}
-          </motion.div>
-        </div>
-      </motion.div>
-
-      <AnimatePresence mode="wait">
-        {filteredTrails.length === 0 ? (
-          <motion.div 
-            key="no-results"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.9 }}
-            transition={{ duration: 0.3 }}
-            className="text-center py-12 text-slate-600 dark:text-gray-300 bg-white dark:bg-slate-800 rounded-lg shadow"
-          >
-            <div className="text-6xl mb-4">🏔️</div>
-            <h3 className="text-xl font-semibold mb-2">沒有找到符合條件的步道</h3>
-            <p>請嘗試調整您的過濾條件</p>
-          </motion.div>
-        ) : (
-          <LayoutGroup id="trail-cards">
-            <motion.div 
-              key="results"
-              variants={containerVariants}
-              initial="hidden"
-              animate="visible"
-              exit="exit"
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-            >
-              <AnimatePresence>
-                {currentTrails.map((trail) => (
-                  <TrailCard 
-                    key={trail.id} 
-                    trail={trail} 
-                    isFavorite={favorites.includes(trail.id)} 
-                    onToggleFavorite={() => toggleFavorite(trail.id)} 
-                  />
-                ))}
-              </AnimatePresence>
-            </motion.div>
-          </LayoutGroup>
-        )}
-      </AnimatePresence>
-
-      {filteredTrails.length > 0 && totalPages > 1 && (
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 0.3 }}
-          className="mt-8 flex justify-center"
-        >
-          <div className="flex space-x-2">
-            <Button
-              onClick={() => handlePageChange(Math.max(filterState.currentPage - 1, 1))}
-              disabled={filterState.currentPage === 1 || isAnimating}
-              variant="outline"
-              className="bg-white dark:bg-slate-700 text-slate-700 dark:text-white border-slate-300 dark:border-slate-600"
-            >
-              上一頁
-            </Button>
-            <div className="flex items-center px-4 text-slate-700 dark:text-white bg-white dark:bg-slate-700 rounded-md border border-slate-300 dark:border-slate-600">
-              第 {filterState.currentPage} 頁，共 {totalPages} 頁
-            </div>
-            <Button
-              onClick={() => handlePageChange(Math.min(filterState.currentPage + 1, totalPages))}
-              disabled={filterState.currentPage === totalPages || isAnimating}
-              variant="outline"
-              className="bg-white dark:bg-slate-700 text-slate-700 dark:text-white border-slate-300 dark:border-slate-600"
-            >
-              下一頁
-            </Button>
+          <div className="flex items-center">
+            <input
+              type="checkbox"
+              id="favorites"
+              checked={filterState.showFavoritesOnly}
+              onChange={(e) => handleFilterChange('showFavoritesOnly', e.target.checked)}
+              className="mr-1 h-4 w-4"
+            />
+            <label htmlFor="favorites" className="text-sm dark:text-white">只顯示收藏</label>
           </div>
-        </motion.div>
+          
+          <Button 
+            variant="outline" 
+            size="sm" 
+            onClick={resetFilters}
+            className="ml-auto"
+          >
+            重置過濾
+          </Button>
+        </div>
+        
+        <div className="text-sm text-gray-500 dark:text-gray-400">
+          顯示 {trailState.filteredTrails.length} 個結果，共 {trails.length} 條步道
+          {trailState.totalPages > 0 && ` | 第 ${filterState.currentPage} 頁，共 ${trailState.totalPages} 頁`}
+        </div>
+      </div>
+      
+      {trailState.isFiltering ? (
+        <div className="flex justify-center my-8">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+        </div>
+      ) : isEmpty ? (
+        <div className="flex flex-col items-center justify-center py-12 text-center">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-16 w-16 text-slate-400 mb-4"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={1.5}
+              d="M19.071 19.071c3.898-3.898 3.898-10.243 0-14.142-3.898-3.898-10.243-3.898-14.142 0-3.898 3.898-3.898 10.243 0 14.142 3.898 3.898 10.243 3.898 14.142 0z"
+            />
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={1.5}
+              d="M8 12h8M12 8v8"
+            />
+          </svg>
+          <h3 className="text-lg font-semibold text-slate-800 dark:text-white mb-2">
+            沒有找到符合條件的步道
+          </h3>
+          <p className="text-slate-600 dark:text-slate-400 mb-4 max-w-md">
+            請嘗試調整過濾條件或重置過濾來查看更多步道。
+          </p>
+          <Button onClick={resetFilters}>重置過濾</Button>
+        </div>
+      ) : (
+        <>
+          {/* 步道卡片網格 */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
+            {trailState.visibleTrails.map(trail => (
+              <TrailCard
+                key={trail.id}
+                trail={trail}
+                isFavorite={favoritesRef.current.has(trail.id)}
+                onToggleFavorite={toggleFavorite}
+              />
+            ))}
+          </div>
+          
+          {/* 分頁控制器 */}
+          {trailState.totalPages > 1 && (
+            <div className="flex justify-center mt-8 mb-20">
+              <div className="bg-white dark:bg-slate-800 rounded-full shadow-md py-2 px-4 flex items-center space-x-2 border border-slate-200 dark:border-slate-700">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => handlePageChange(filterState.currentPage - 1)}
+                  disabled={filterState.currentPage === 1}
+                  className="h-8 w-8 p-0 rounded-full flex items-center justify-center"
+                  aria-label="上一頁"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                  </svg>
+                </Button>
+                
+                <div className="hidden sm:flex space-x-2">
+                  {pageNumbers.map(page => (
+                    <Button
+                      key={page}
+                      variant={page === filterState.currentPage ? "default" : "ghost"}
+                      size="sm"
+                      onClick={() => handlePageChange(page)}
+                      className={cn(
+                        "h-8 w-8 p-0 rounded-full flex items-center justify-center font-medium",
+                        page === filterState.currentPage 
+                          ? "bg-indigo-400 text-white shadow-md border-2 border-primary/20 scale-110 transform transition-all"
+                          : "hover:bg-primary/10"
+                      )}
+                    >
+                      {page}
+                    </Button>
+                  ))}
+                </div>
+                
+                <div className="sm:hidden px-3 font-medium text-sm">
+                  {filterState.currentPage} / {trailState.totalPages}
+                </div>
+                
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => handlePageChange(filterState.currentPage + 1)}
+                  disabled={filterState.currentPage === trailState.totalPages}
+                  className="h-8 w-8 p-0 rounded-full flex items-center justify-center"
+                  aria-label="下一頁"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                  </svg>
+                </Button>
+              </div>
+            </div>
+          )}
+        </>
       )}
     </div>
   );
 };
 
-export default TrailCardGrid;
+export default React.memo(TrailCardGrid);

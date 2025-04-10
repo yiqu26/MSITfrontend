@@ -6,14 +6,16 @@ interface GradientTextProps {
     colors?: string[];
     animationSpeed?: number;
     showBorder?: boolean;
+    fullWidth?: boolean;
 }
 
 export default function GradientText({
     children,
     className = "",
-    colors = ["#ffaa40", "#9c40ff", "#ffaa40"],
-    animationSpeed = 8,
+    colors = ["#0ea5e9", "#8b5cf6", "#10b981"],
+    animationSpeed = 6,
     showBorder = false,
+    fullWidth = false,
 }: GradientTextProps) {
     const gradientStyle = {
         backgroundImage: `linear-gradient(to right, ${colors.join(", ")})`,
@@ -22,21 +24,21 @@ export default function GradientText({
 
     return (
         <div
-            className={`relative mx-auto flex max-w-fit flex-row items-center justify-center rounded-[1.25rem] font-medium backdrop-blur transition-shadow duration-500 overflow-hidden cursor-pointer ${className}`}
+            className={`relative ${fullWidth ? 'w-full' : 'mx-auto'} flex ${fullWidth ? 'w-full' : 'max-w-fit'} flex-row items-center justify-center py-2 px-3 font-medium transition-shadow duration-500 overflow-hidden ${className}`}
         >
             {showBorder && (
                 <div
-                    className="absolute inset-0 bg-cover z-0 pointer-events-none animate-gradient"
+                    className="absolute inset-0 bg-cover z-0 pointer-events-none animate-gradient rounded-xl"
                     style={{
                         ...gradientStyle,
                         backgroundSize: "300% 100%",
                     }}
                 >
                     <div
-                        className="absolute inset-0 bg-black rounded-[1.25rem] z-[-1]"
+                        className="absolute inset-0 bg-white dark:bg-slate-800 rounded-xl z-[-1]"
                         style={{
-                            width: "calc(100% - 2px)",
-                            height: "calc(100% - 2px)",
+                            width: "calc(100% - 4px)",
+                            height: "calc(100% - 4px)",
                             left: "50%",
                             top: "50%",
                             transform: "translate(-50%, -50%)",
@@ -45,7 +47,7 @@ export default function GradientText({
                 </div>
             )}
             <div
-                className="inline-block relative z-2 text-transparent bg-cover animate-gradient"
+                className="inline-block relative z-2 text-transparent bg-cover animate-gradient font-bold whitespace-nowrap tracking-wide"
                 style={{
                     ...gradientStyle,
                     backgroundClip: "text",
@@ -71,7 +73,7 @@ export default function GradientText({
 //         },
 //       },
 //       animation: {
-//         gradient: 'gradient 8s linear infinite'
+//         gradient: 'gradient 6s linear infinite'
 //       },
 //     },
 //   },
