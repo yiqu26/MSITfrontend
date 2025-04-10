@@ -380,15 +380,7 @@ const TrailCardGrid: React.FC<TrailCardGridProps> = ({ trails }) => {
 
   return (
     <div className="container mx-auto px-4 py-8 md:py-12 bg-slate-100 dark:bg-slate-900">
-      <motion.h1 
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.1 }}
-        className="text-3xl md:text-4xl font-bold text-slate-800 dark:text-white mb-6 text-center"
-      >
-        探索台灣步道
-        <span className="text-primary ml-2">找尋你的下一段冒險</span>
-      </motion.h1>
+     
 
       <motion.div 
         initial={{ opacity: 0, y: 10 }}

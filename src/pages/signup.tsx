@@ -71,7 +71,7 @@ export default function Signup() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="dark:bg-gray-700 dark:text-gray-100"
+                className="dark:bg-gray-700 dark:text-gray-100 border-slate-700 dark:border-slate-300"
               />
             </div>
             <div className="grid gap-2">
@@ -85,7 +85,7 @@ export default function Signup() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                className="dark:bg-gray-700 dark:text-gray-100"
+                className="dark:bg-gray-700 dark:text-gray-100 border-slate-700 dark:border-slate-300"
               />
             </div>
             <div className="grid gap-2">
@@ -99,7 +99,7 @@ export default function Signup() {
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 required
-                className="dark:bg-gray-700 dark:text-gray-100"
+                className="dark:bg-gray-700 dark:text-gray-100 border-slate-700 dark:border-slate-300"
               />
             </div>
             <Button type="submit" className="w-full bg-blue-500 text-white hover:bg-blue-600 hover:shadow-lg transition-all">

@@ -7,7 +7,7 @@ import { Loader2 } from "lucide-react";
 
 const loadingContainerVariants = {
   hidden: { opacity: 0 },
-  visible: { 
+  visible: {
     opacity: 1,
     transition: { duration: 0.5 }
   },
@@ -19,35 +19,29 @@ const loadingContainerVariants = {
 
 const loadingTextVariants = {
   hidden: { opacity: 0, y: 5 },
-  visible: { 
-    opacity: 1, 
+  visible: {
+    opacity: 1,
     y: 0,
-    transition: { 
-      delay: 0.2, 
+    transition: {
+      delay: 0.2,
       duration: 0.5,
       ease: "easeOut"
     }
   }
 };
 
-// 簡化的篩選類型
-type SimpleFilter = {
-  region: string[];
-  difficulty: string[];
-  seasons: string[];
-  minRating: number;
-};
 
 const TrailsPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
-  
+
   // 使用 useMemo 只加載一次資料，避免不必要的重新計算
   const trailsData = useMemo(() => Traildata as Trail[], []);
 
   useEffect(() => {
     // 設置頁面標題
-    document.title = "探索台灣登山步道 | 台灣最佳登山資訊平台";
     
+    //document.title = "探索台灣登山步道 | 台灣最佳登山資訊平台";
+
     // 預先加載一些關鍵圖片
     const preloadImages = () => {
       const firstFewTrails = trailsData.slice(0, 6);
@@ -56,13 +50,13 @@ const TrailsPage: React.FC = () => {
         img.src = trail.image;
       });
     };
-    
+
     // 模擬資料加載 - 使用較短的延遲時間並優化圖片加載
     const timeout = setTimeout(() => {
       preloadImages();
       setIsLoading(false);
     }, 600);
-    
+
     return () => clearTimeout(timeout);
   }, [trailsData]);
 
@@ -71,7 +65,7 @@ const TrailsPage: React.FC = () => {
     <div className="min-h-screen bg-slate-100 dark:bg-slate-900">
       <AnimatePresence mode="wait">
         {isLoading ? (
-          <motion.div 
+          <motion.div
             key="loading"
             variants={loadingContainerVariants}
             initial="hidden"
@@ -80,7 +74,7 @@ const TrailsPage: React.FC = () => {
             className="flex flex-col justify-center items-center min-h-screen"
           >
             <Loader2 className="h-12 w-12 text-primary animate-spin mb-4" />
-            <motion.span 
+            <motion.span
               variants={loadingTextVariants}
               className="text-lg text-slate-800 dark:text-white"
             >

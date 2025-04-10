@@ -115,7 +115,7 @@ export default function TrailSection() {
                 }}
                 className="relative inline-flex items-center justify-center rounded-full px-24 sm:px-28 py-5 sm:py-6 text-xl sm:text-2xl font-bold text-white transition-all duration-300 hover:scale-[1.02] shadow-lg hover:shadow-2xl group border border-white/10"
               >
-                <span className="text-2xl tracking-wider whitespace-nowrap text-white "><ShinyText text="GO!" disabled={false} speed={6} className='custom-class' /></span>
+                <span className="text-2xl tracking-wider whitespace-nowrap  "><ShinyText text="GO!" disabled={false} speed={6} className='text-white' /></span>
                
               </button>
             </div>

@@ -1,7 +1,5 @@
 // login.js
 import { LoginForm } from '@/components/login-form';
-import { motion } from "framer-motion";
-
 export default function LoginPage() {
 
 

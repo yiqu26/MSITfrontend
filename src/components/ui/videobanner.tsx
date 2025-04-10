@@ -1,5 +1,6 @@
 // src/components/VideoBanner.js
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const VideoBanner = () => {
     const videoRef = useRef(null);
@@ -13,20 +14,27 @@ const VideoBanner = () => {
     useEffect(() => {
         const interval = setInterval(() => {
             setCurrentIndex(prevIndex => (prevIndex + 1) % videoSources.length);
-        }, 7000); // 每 5 秒切換一次影片
+        }, 9000); // 每 9 秒切換一次影片
 
         return () => clearInterval(interval); // 清除 interval 當組件卸載時
     }, []);
 
     return (
-        <video
-            ref={videoRef}
-            autoPlay
-            muted
-            loop
-            src={videoSources[currentIndex]}
-            className="absolute w-full h-full object-cover brightness-50"
-        ></video>
+        <AnimatePresence mode="wait">
+            <motion.video
+                key={currentIndex}
+                ref={videoRef}
+                autoPlay
+                muted
+                loop
+                src={videoSources[currentIndex]}
+                className="absolute w-full h-full object-cover brightness-50"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 1 }}
+            />
+        </AnimatePresence>
     );
 };
 

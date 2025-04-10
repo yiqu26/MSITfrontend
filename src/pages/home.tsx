@@ -4,6 +4,7 @@ import Hero from '@/components/ui/hero';
 import Menu from '@/components/ui/menu';
 import Footer from '@/components/ui/footer';
 import TrailSection from '@/components/ui/trailsection';
+import TrailStats from '@/components/ui/trailstats';
 
 function Home() {
   return (
@@ -12,6 +13,7 @@ function Home() {
       <Hero />
       <Menu />
       <TrailSection />
+      <TrailStats />
       <Footer />
     </div>
   );

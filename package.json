@@ -31,6 +31,7 @@
     "framer-motion": "^12.6.3",
     "leaflet": "^1.9.4",
     "lucide-react": "^0.487.0",
+    "matter-js": "^0.20.0",
     "motion": "^12.6.2",
     "next": "^15.2.4",
     "next-images": "^1.8.5",
@@ -78,6 +79,7 @@
   },
   "devDependencies": {
     "@craco/craco": "^7.1.0",
+    "@types/matter-js": "^0.19.8",
     "@types/three": "^0.175.0",
     "daisyui": "^5.0.12"
   }

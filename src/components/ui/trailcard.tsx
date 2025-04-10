@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
+import { useGeolocation } from "@/components/ui/useGeolocation";
+import GradientText from "./gridiantext";
 
 const trails = [
     {
@@ -84,12 +86,29 @@ const getDifficultyColor = (difficulty: string) => {
 };
 
 const TrailCarousel = () => {
+    const { location, error } = useGeolocation();
     const [favorites, setFavorites] = useState<number[]>([]);
+    const [currentLocation, setCurrentLocation] = useState<string>("台中市");
+
+    // 根據經緯度獲取城市名稱
+    useEffect(() => {
+        if (location) {
+            fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${location.latitude}&lon=${location.longitude}`)
+                .then(response => response.json())
+                .then(data => {
+                    const city = data.address.city || data.address.county || data.address.state;
+                    if (city) {
+                        setCurrentLocation(city);
+                    }
+                })
+                .catch(error => console.error('Error fetching location:', error));
+        }
+    }, [location]);
 
     // 切換收藏顯示
     const toggleFavorite = (index: number) => {
-        setFavorites(prev => 
-            prev.includes(index) 
+        setFavorites(prev =>
+            prev.includes(index)
                 ? prev.filter(i => i !== index)
                 : [...prev, index]
         );
@@ -97,9 +116,15 @@ const TrailCarousel = () => {
 
     return (
         <div className="px-4 py-6 max-w-7xl mx-auto">
-            <h2 className="text-3xl font-bold mb-6 text-gray-800 dark:text-white">
-                Local favorites near <span className="text-primary dark:text-emerald-400 font-bold">Taichung</span>
-            </h2>
+            {error && <p className="text-red-500">錯誤：{error}</p>}
+            <div className="flex flex-col items-center mb-6">
+                <GradientText showBorder={false} className="text-3xl font-sans px-4 py-2">
+                    附近推薦步道
+                </GradientText>
+                <p className="text-gray-600 dark:text-gray-400 mt-2">
+                    目前位置：{currentLocation}
+                </p>
+            </div>
             <Swiper
                 modules={[Navigation]}
                 spaceBetween={20}
@@ -126,11 +151,10 @@ const TrailCarousel = () => {
                                 >
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
-                                        className={`h-6 w-6 transition-colors duration-200 ${
-                                            favorites.includes(index)
+                                        className={`h-6 w-6 transition-colors duration-200 ${favorites.includes(index)
                                                 ? "text-red-500 fill-current"
                                                 : "text-white"
-                                        }`}
+                                            }`}
                                         fill="none"
                                         viewBox="0 0 24 24"
                                         stroke="currentColor"

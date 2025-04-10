@@ -129,6 +129,7 @@ export function LoginForm({
                 <div className="grid gap-2">
                   <Label htmlFor="email">Email</Label>
                   <Input
+                    className="border-slate-700 dark:border-slate-300"
                     id="email"
                     type="email"
                     placeholder="m@example.com"
@@ -148,6 +149,7 @@ export function LoginForm({
                     </a>
                   </div>
                   <Input
+                    className="border-slate-700 dark:border-slate-300"
                     id="password"
                     type="password"
                     value={password}
@@ -173,7 +175,7 @@ export function LoginForm({
                   </span>
                 </div>
                 <div className="grid grid-cols-3 gap-4">
-                  <Button onClick={() => loginTwitter()} variant="outline" className="w-full">
+                  <Button onClick={() => loginTwitter()} variant="outline" className="w-full border-slate-700 dark:border-slate-300">
                     <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 16 16">
                       <path
                         d="M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.07-4.425 5.07H.316l5.733-6.57L0 .75h5.063l3.495 4.633L12.601.75Zm-.86 13.028h1.36L4.323 2.145H2.865z"
@@ -182,7 +184,7 @@ export function LoginForm({
                     </svg>
                     <span className="sr-only">Login with X</span>
                   </Button>
-                  <Button onClick={() => loginGoogle()} >
+                  <Button className="w-full border-slate-700 dark:border-slate-300" onClick={() => loginGoogle()} >
                     <svg xmlns="http://www.w3.org/2000/svg" width="100%"
                       height="100%" viewBox="0 0 24 24">
                       <path
@@ -192,7 +194,7 @@ export function LoginForm({
                     </svg>
                     <span className="sr-only">Login with Google</span>
                   </Button>
-                  <Button onClick={() => loginFacebook()} variant="outline" className="w-full">
+                  <Button onClick={() => loginFacebook()} variant="outline" className="border-slate-700 dark:border-slate-300 w-full">
                     <svg xmlns="http://www.w3.org/2000/svg" width="100%"
                       height="100%" viewBox="0 0 24 24">
                       <path
