@@ -45,7 +45,6 @@ const App = () => {
                 className="flex justify-around py-2 border border-zinc-500 dark:border-blue-800 rounded-xl bg-white dark:bg-zinc-900 shadow-md"
               />
             </div>
-            
             <ThemeToggle />
           </div>
         </Router>

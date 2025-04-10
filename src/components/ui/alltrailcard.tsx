@@ -7,6 +7,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Trail } from '@/components/ui/filter';
 import { cn } from "@/lib/utils";
 import { HeartIcon } from "@heroicons/react/24/solid";
+import TrailCommentDialog from "./trailcommentdialog";
+import trailComments from "@/data/trailcomments.json";
 
 interface TrailCardGridProps {
   trails: Trail[];
@@ -61,98 +63,128 @@ const containerVariants = {
 
 // 單個卡片組件抽離出來，使用memo減少渲染
 const TrailCard = React.memo(({ trail, isFavorite, onToggleFavorite }: TrailCardProps) => {
+  const [isCommentOpen, setIsCommentOpen] = useState(false);
+
+  const getDifficultyColor = (difficulty: string) => {
+    switch (difficulty) {
+      case "簡單":
+        return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300";
+      case "普通":
+        return "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300";
+      case "困難":
+        return "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300";
+      default:
+        return "bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-300";
+    }
+  };
+
+  const getTrailReviews = (trailId: number) => {
+    const trailComment = trailComments.find(tc => tc.trailId === trailId);
+    return trailComment ? trailComment.reviews : [];
+  };
+
   return (
-    <motion.div 
-      layout
-      variants={cardVariants}
-      initial="hidden"
-      animate="visible"
-      exit="exit"
-      className="relative group overflow-hidden rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 shadow-md hover:shadow-lg transition-all"
-      whileHover={{ y: -4, transition: { duration: 0.2 } }}
-    >
-      <div className="relative aspect-[4/3] bg-muted overflow-hidden">
-        <img
-          src={trail.image}
-          alt={trail.name}
-          className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
-          loading="lazy"
-        />
-        <motion.button
-          className="absolute top-2 right-2 z-10"
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            onToggleFavorite();
-          }}
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-        >
-          <HeartIcon
-            className={cn(
-              "h-6 w-6",
-              isFavorite
-                ? "fill-red-500 stroke-white"
-                : "fill-white/30 stroke-white"
-            )}
+    <>
+      <motion.div 
+        layout
+        variants={cardVariants}
+        initial="hidden"
+        animate="visible"
+        exit="exit"
+        className="relative group overflow-hidden rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 shadow-md hover:shadow-lg transition-all"
+        whileHover={{ y: -4, transition: { duration: 0.2 } }}
+        onClick={() => setIsCommentOpen(true)}
+      >
+        <div className="relative aspect-[4/3] bg-muted overflow-hidden">
+          <img
+            src={trail.image}
+            alt={trail.name}
+            className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
+            loading="lazy"
           />
-        </motion.button>
-      </div>
-
-      <div className="p-4">
-        <div className="flex gap-2 mb-2">
-          <Badge className="flex items-center gap-1 bg-amber-500 text-white">
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="none">
-              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-            </svg>
-            {trail.rating.toFixed(1)}
-          </Badge>
-
-          <Badge
-            className={cn(
-              "text-white",
-              trail.difficulty === '困難' ? 'bg-red-500' :
-              trail.difficulty === '中等' ? 'bg-amber-500' :
-              'bg-green-500'
-            )}
+          <motion.button
+            className="absolute top-2 right-2 z-10"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              onToggleFavorite();
+            }}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
           >
-            {trail.difficulty}
-          </Badge>
-
-          <Badge variant="secondary" className="dark:bg-slate-700">
-            {trail.length} 公里
-          </Badge>
+            <HeartIcon
+              className={cn(
+                "h-6 w-6",
+                isFavorite
+                  ? "fill-red-500 stroke-white"
+                  : "fill-white/30 stroke-white"
+              )}
+            />
+          </motion.button>
         </div>
 
-        <h3 className="text-xl font-bold mb-2 text-slate-800 dark:text-white">{trail.name}</h3>
-        <p className="text-slate-600 dark:text-slate-300 mb-4 text-sm">{trail.description}</p>
-
-        <div className="flex justify-between text-sm mb-2 text-slate-500 dark:text-slate-400">
-          <span>{trail.region}</span>
-          <span>適合季節: {trail.seasons.join(', ')}</span>
-        </div>
-
-        <div className="flex flex-wrap gap-1 mt-3">
-          {trail.tags.slice(0, 3).map(tag => (
-            <Badge 
-              key={tag} 
-              variant="outline" 
-              className="text-xs bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-200 border-slate-300 dark:border-slate-600"
-            >
-              {tag}
+        <div className="p-4">
+          <div className="flex gap-2 mb-2">
+            <Badge className="flex items-center gap-1 bg-amber-500 text-white">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+              </svg>
+              {trail.rating.toFixed(1)}
             </Badge>
-          ))}
-          {trail.tags.length > 3 && (
-            <Badge 
-              variant="outline" 
-              className="text-xs bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-200 border-slate-300 dark:border-slate-600"
+
+            <Badge
+              className={cn(
+                "text-white",
+                trail.difficulty === '困難' ? 'bg-red-500' :
+                trail.difficulty === '中等' ? 'bg-amber-500' :
+                'bg-green-500'
+              )}
             >
-              +{trail.tags.length - 3}
+              {trail.difficulty}
             </Badge>
-          )}
+
+            <Badge variant="secondary" className="dark:bg-slate-700">
+              {trail.length} 公里
+            </Badge>
+          </div>
+
+          <h3 className="text-xl font-bold mb-2 text-slate-800 dark:text-white">{trail.name}</h3>
+          <p className="text-slate-600 dark:text-slate-300 mb-4 text-sm">{trail.description}</p>
+
+          <div className="flex justify-between text-sm mb-2 text-slate-500 dark:text-slate-400">
+            <span>{trail.region}</span>
+            <span>適合季節: {trail.seasons.join(', ')}</span>
+          </div>
+
+          <div className="flex flex-wrap gap-1 mt-3">
+            {trail.tags.slice(0, 3).map(tag => (
+              <Badge 
+                key={tag} 
+                variant="outline" 
+                className="text-xs bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-200 border-slate-300 dark:border-slate-600"
+              >
+                {tag}
+              </Badge>
+            ))}
+            {trail.tags.length > 3 && (
+              <Badge 
+                variant="outline" 
+                className="text-xs bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-200 border-slate-300 dark:border-slate-600"
+              >
+                +{trail.tags.length - 3}
+              </Badge>
+            )}
+          </div>
         </div>
-      </div>
-    </motion.div>
+      </motion.div>
+
+      <TrailCommentDialog
+        isOpen={isCommentOpen}
+        onClose={() => setIsCommentOpen(false)}
+        trailName={trail.name}
+        reviews={getTrailReviews(trail.id)}
+      />
+    </>
   );
 });
 
