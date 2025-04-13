@@ -88,7 +88,7 @@ const getDifficultyColor = (difficulty: string) => {
 const TrailCarousel = () => {
     const { location, error } = useGeolocation();
     const [favorites, setFavorites] = useState<number[]>([]);
-    const [currentLocation, setCurrentLocation] = useState<string>("台中市");
+    const [currentLocation, setCurrentLocation] = useState<string>("未知的位置");
 
     // 根據經緯度獲取城市名稱
     useEffect(() => {
