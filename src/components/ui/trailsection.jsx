@@ -4,7 +4,7 @@
 import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 import { useNavigate } from 'react-router-dom'
-import { useState, useEffect } from 'react'
+
 import ShinyText from '@/components/ui/shinytext';
 
 const cards = [
@@ -19,16 +19,6 @@ const cards = [
 export default function TrailSection() {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.2 })
   const navigate = useNavigate()
-  const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 768)
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsDesktop(window.innerWidth >= 768)
-    }
-
-    window.addEventListener('resize', handleResize)
-    return () => window.removeEventListener('resize', handleResize)
-  }, [])
 
   const handleSignUp = () => {
     navigate('/login')
@@ -39,20 +29,14 @@ export default function TrailSection() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div
           ref={ref}
-          style={{
-            display: 'flex',
-            flexDirection: isDesktop ? 'row' : 'column-reverse'
-          }}
-          className="items-start gap-6 lg:gap-36"
+          className="flex flex-col-reverse md:flex-row items-start gap-6 lg:gap-36"
         >
           {/* 左側卡片區 */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.6 }}
-            style={{
-              width: isDesktop ? '58.333333%' : '100%'
-            }}
+            className="w-full md:w-7/12"
           >
             <div className="grid grid-cols-3 grid-rows-2 gap-2 sm:gap-3 md:gap-4">
               {cards.map((card, index) => (
@@ -85,15 +69,7 @@ export default function TrailSection() {
             initial={{ opacity: 0, x: 30 }}
             animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.6 }}
-            style={{
-              width: isDesktop ? '41.666667%' : '100%',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: isDesktop ? 'flex-start' : 'center',
-              gap: '1.5rem',
-              marginBottom: isDesktop ? '0' : '2rem',
-              paddingTop: isDesktop ? '5rem' : '0'
-            }}
+            className="w-full md:w-5/12 flex flex-col items-center md:items-start gap-6 mb-8 md:mb-0 md:pt-20"
           >
             <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-center md:text-left leading-tight mb-2">
               <span className="text-inherit">適合您的</span>
