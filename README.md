@@ -205,7 +205,7 @@ Example Created By [Ahmad Sandid](https://github.com/ahmad1702). Components by [
    ```json
    {
      "compilerOptions": {
-       "target": "es5",
+      "target": "es6",
        "lib": ["dom", "dom.iterable", "esnext"],
        "allowJs": true,
        "skipLibCheck": true,
